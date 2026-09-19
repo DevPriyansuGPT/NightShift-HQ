@@ -155,12 +155,68 @@
   }
 
   /* Modal Mobile */
-  dialog#project-dialog {
+  dialog#project-dialog,
+  dialog#team-dialog {
     width: 100vw;
     height: 100vh;
     max-height: 100vh;
     border-radius: 0;
     border: none;
+  }
+
+  .dossier-topbar {
+    padding: 0.85rem 1rem;
+    gap: 0.75rem;
+  }
+
+  .dossier-switch-tabs {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .dossier-tab-btn {
+    padding: 0.35rem 0.65rem;
+    font-size: 0.7rem;
+  }
+
+  .dossier-hero {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.5rem 1.25rem 1.25rem 1.25rem;
+    gap: 1.25rem;
+  }
+
+  .dossier-role-row {
+    justify-content: center;
+  }
+
+  .dossier-metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .dossier-metric-tile {
+    padding: 1rem;
+  }
+
+  .dossier-body {
+    padding: 1.25rem;
+    gap: 1.75rem;
+  }
+
+  .dossier-resp-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dossier-quote-card {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .dossier-bottom-bar {
+    padding: 1rem 1.25rem;
+    flex-direction: column;
+    text-align: center;
+    gap: 0.75rem;
   }
 
   .modal-body {

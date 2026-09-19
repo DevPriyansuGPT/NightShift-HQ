@@ -6,6 +6,7 @@
 
 import { initOpeningSequence, initAmbientCanvas, initScrollReveals } from './animations.js';
 import { initProjectModal } from './projects.js';
+import { initTeamModal } from './team.js';
 import { initTimelineAndLogs } from './timeline.js';
 import { initInteractions } from './interactions.js';
 
@@ -18,6 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 3. Initialize Project Detail Dialog System
   initProjectModal();
+
+  // 3.1 Initialize Team Dossier Modal System
+  initTeamModal();
 
   // 4. Initialize Timeline & Dev Log Stream
   initTimelineAndLogs();

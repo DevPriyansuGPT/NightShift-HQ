@@ -226,17 +226,17 @@
             </div>
 
             <div class="identity-details">
-              <div class="identity-row">
+              <div class="identity-row clickable" data-member="founder" role="button" tabindex="0" title="Click to view Founder Story & Profile" aria-label="Inspect Founder Story and Profile">
                 <span class="identity-key">FOUNDER</span>
-                <span class="identity-val">Priyansu</span>
+                <span class="identity-val identity-val-link">Priyansu</span>
               </div>
-              <div class="identity-row">
+              <div class="identity-row clickable" data-member="devteam" role="button" tabindex="0" title="Click to view Development Team Story & Profile" aria-label="Inspect Development Team Story and Profile">
                 <span class="identity-key">DEVELOPMENT</span>
-                <span class="identity-val">Priyansu + GPT</span>
+                <span class="identity-val identity-val-link">Priyansu + GPT</span>
               </div>
-              <div class="identity-row">
+              <div class="identity-row clickable" data-member="sysmanager" role="button" tabindex="0" title="Click to view System Manager Story & Profile" aria-label="Inspect System Manager Story and Profile">
                 <span class="identity-key">MANAGEMENT</span>
-                <span class="identity-val">GPT</span>
+                <span class="identity-val identity-val-link">GPT</span>
               </div>
               <div class="identity-row">
                 <span class="identity-key">PHILOSOPHY</span>
@@ -403,6 +403,13 @@
     <dialog id="project-dialog" aria-labelledby="dialog-title">
       <div id="modal-dynamic-content">
         <!-- Content is dynamically rendered by js/projects.js -->
+      </div>
+    </dialog>
+
+    <!-- 07.1: TEAM DOSSIER SYSTEM (<dialog> MODAL) -->
+    <dialog id="team-dialog" aria-labelledby="team-dialog-name">
+      <div id="team-dynamic-content">
+        <!-- Content dynamically rendered by js/team.js -->
       </div>
     </dialog>
 
@@ -635,31 +642,43 @@
         <!-- Team Section -->
         <div class="team-grid">
           
-          <div class="team-card reveal-fade-up">
+          <div class="team-card reveal-fade-up" data-member="founder" role="button" tabindex="0" aria-haspopup="dialog" aria-label="View profile, story and work of Priyansu, Founder and Lead Dev">
+            <span class="team-card-top-tag">DOSSIER // 01</span>
             <div class="team-avatar">P</div>
             <span class="team-role-tag">FOUNDER & LEAD DEV</span>
             <h4 class="team-name">Priyansu</h4>
             <p class="team-desc">
               Creative technologist and developer driving the vision, aesthetics, and implementation across all NightShift projects.
             </p>
+            <div class="team-card-footer">
+              <span class="team-action-link">Open Story & Work <span class="team-arrow">→</span></span>
+            </div>
           </div>
 
-          <div class="team-card reveal-fade-up reveal-delay-1">
+          <div class="team-card reveal-fade-up reveal-delay-1" data-member="devteam" role="button" tabindex="0" aria-haspopup="dialog" aria-label="View profile, story and work of Priyansu and GPT, Development Team">
+            <span class="team-card-top-tag">DOSSIER // 02</span>
             <div class="team-avatar">P+G</div>
             <span class="team-role-tag">DEVELOPMENT TEAM</span>
             <h4 class="team-name">Priyansu + GPT</h4>
             <p class="team-desc">
               High-velocity pair programming alliance collaborating on architectural patterns, algorithmic solutions, and clean execution.
             </p>
+            <div class="team-card-footer">
+              <span class="team-action-link">Open Story & Work <span class="team-arrow">→</span></span>
+            </div>
           </div>
 
-          <div class="team-card reveal-fade-up reveal-delay-2">
+          <div class="team-card reveal-fade-up reveal-delay-2" data-member="sysmanager" role="button" tabindex="0" aria-haspopup="dialog" aria-label="View profile, story and work of GPT, System Manager">
+            <span class="team-card-top-tag">DOSSIER // 03</span>
             <div class="team-avatar">GPT</div>
             <span class="team-role-tag">SYSTEM MANAGER</span>
             <h4 class="team-name">GPT</h4>
             <p class="team-desc">
               Strategic partner, code auditor, and organizational engine coordinating project workflows and performance benchmarks.
             </p>
+            <div class="team-card-footer">
+              <span class="team-action-link">Open Story & Work <span class="team-arrow">→</span></span>
+            </div>
           </div>
 
         </div>

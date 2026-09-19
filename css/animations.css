@@ -98,6 +98,26 @@
 }
 
 /* Keyframes */
+@keyframes rotate-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.9);
+  }
+}
+
 @keyframes pulsePing {
   0% {
     transform: scale(0.95);
@@ -215,7 +235,9 @@
   }
 
   dialog#project-dialog,
-  dialog#project-dialog::backdrop {
+  dialog#project-dialog::backdrop,
+  dialog#team-dialog,
+  dialog#team-dialog::backdrop {
     transition: none !important;
     transform: none !important;
   }

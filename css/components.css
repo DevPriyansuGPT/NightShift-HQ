@@ -241,6 +241,49 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.04);
 }
 
+.identity-row.clickable {
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 0.45rem 0.65rem;
+  margin: -0.25rem -0.65rem 0.45rem -0.65rem;
+  transition: all var(--duration-fast) ease;
+  user-select: none;
+}
+
+.identity-row.clickable:hover {
+  background: rgba(0, 242, 254, 0.06);
+  border-bottom-color: rgba(0, 242, 254, 0.3);
+  transform: translateX(3px);
+}
+
+.identity-row.clickable:hover .identity-val {
+  color: var(--cyan);
+}
+
+.identity-row.clickable:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+}
+
+.identity-val-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.identity-val-link::after {
+  content: '↗';
+  font-size: 0.75rem;
+  opacity: 0.4;
+  color: var(--cyan);
+  transition: all var(--duration-fast) ease;
+}
+
+.identity-row.clickable:hover .identity-val-link::after {
+  opacity: 1;
+  transform: translate(2px, -2px);
+}
+
 .identity-key {
   font-family: var(--font-mono);
   font-size: 0.75rem;
@@ -254,6 +297,7 @@
   font-size: 0.9375rem;
   color: var(--text-pure);
   text-align: right;
+  transition: color var(--duration-fast) ease;
 }
 
 /* Status Bar ticker items */
@@ -991,27 +1035,68 @@ dialog#project-dialog[open]::backdrop {
 }
 
 .team-card {
+  position: relative;
   background: var(--glass-card);
   backdrop-filter: var(--glass-blur);
   border: 1px solid var(--border-subtle);
   border-radius: 16px;
-  padding: 2rem;
+  padding: 2.25rem 2rem 1.85rem 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   gap: 1rem;
-  transition: all var(--duration-normal) ease;
+  cursor: pointer;
+  outline: none;
+  overflow: hidden;
+  transition: transform var(--duration-normal) var(--ease-cinematic),
+              border-color var(--duration-normal) ease,
+              box-shadow var(--duration-normal) ease,
+              background-color var(--duration-normal) ease;
+}
+
+.team-card-top-tag {
+  position: absolute;
+  top: 1rem;
+  right: 1.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--text-muted);
+  letter-spacing: 0.12em;
+  opacity: 0.8;
+}
+
+.team-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+  opacity: 0;
+  transition: opacity var(--duration-normal) ease;
 }
 
 .team-card:hover {
-  border-color: rgba(255, 255, 255, 0.2);
-  transform: translateY(-3px);
+  background: rgba(13, 17, 27, 0.75);
+  border-color: rgba(0, 242, 254, 0.4);
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7), 0 0 25px rgba(0, 242, 254, 0.15);
+}
+
+.team-card:hover::before {
+  opacity: 1;
+}
+
+.team-card:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
 }
 
 .team-avatar {
-  width: 68px;
-  height: 68px;
+  width: 72px;
+  height: 72px;
   border-radius: 50%;
   background: linear-gradient(135deg, rgba(0, 242, 254, 0.15), rgba(129, 140, 248, 0.15));
   border: 1px solid var(--border-cyan);
@@ -1022,24 +1107,568 @@ dialog#project-dialog[open]::backdrop {
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--cyan);
+  box-shadow: 0 0 15px rgba(0, 242, 254, 0.1);
+  transition: all var(--duration-normal) ease;
+}
+
+.team-card:hover .team-avatar {
+  transform: scale(1.06);
+  border-color: #00f2fe;
+  box-shadow: 0 0 25px rgba(0, 242, 254, 0.35);
 }
 
 .team-role-tag {
   font-family: var(--font-mono);
   font-size: 0.6875rem;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   color: var(--cyan);
+  background: rgba(0, 242, 254, 0.06);
+  padding: 0.2rem 0.65rem;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 242, 254, 0.2);
 }
 
 .team-name {
-  font-size: 1.35rem;
+  font-size: 1.4rem;
   font-weight: 700;
   color: var(--text-pure);
+  margin-top: -0.25rem;
 }
 
 .team-desc {
   font-size: 0.875rem;
   color: var(--text-secondary);
+  line-height: 1.6;
+  flex-grow: 1;
+}
+
+.team-card-footer {
+  margin-top: 0.5rem;
+  width: 100%;
+}
+
+.team-action-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--cyan);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.45rem 1rem;
+  border-radius: 9999px;
+  background: rgba(0, 242, 254, 0.08);
+  border: 1px solid rgba(0, 242, 254, 0.25);
+  transition: all 0.25s ease;
+}
+
+.team-card:hover .team-action-link {
+  background: var(--cyan);
+  color: #040508;
+  border-color: var(--cyan);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 18px rgba(0, 242, 254, 0.4);
+}
+
+.team-arrow {
+  transition: transform 0.2s ease;
+}
+
+.team-card:hover .team-arrow {
+  transform: translateX(4px);
+}
+
+/* ==========================================================================
+   TEAM DOSSIER MODAL (<dialog id="team-dialog">)
+   ========================================================================== */
+
+dialog#team-dialog {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  width: min(940px, 94vw);
+  max-height: 90vh;
+  border-radius: 20px;
+  background: #080a11;
+  border: 1px solid rgba(0, 242, 254, 0.25);
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.95), 0 0 40px rgba(0, 242, 254, 0.12);
+  color: var(--text-primary);
+  padding: 0;
+  overflow-y: auto;
+  z-index: 1000;
+
+  /* Entry/Exit transition */
+  opacity: 0;
+  transform: scale(0.96) translateY(14px);
+  transition-property: opacity, transform, display, overlay;
+  transition-duration: 0.3s;
+  transition-timing-function: var(--ease-cinematic);
+  transition-behavior: allow-discrete;
+}
+
+dialog#team-dialog[open] {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+
+  @starting-style {
+    opacity: 0;
+    transform: scale(0.96) translateY(14px);
+  }
+}
+
+dialog#team-dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0);
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+  transition: display 0.3s allow-discrete, overlay 0.3s allow-discrete, background-color 0.3s ease, backdrop-filter 0.3s ease;
+}
+
+dialog#team-dialog[open]::backdrop {
+  background-color: rgba(4, 5, 8, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  @starting-style {
+    background-color: rgba(0, 0, 0, 0);
+    backdrop-filter: blur(0px);
+  }
+}
+
+.dossier-modal-inner {
+  display: flex;
+  flex-direction: column;
+}
+
+/* TOPBAR */
+.dossier-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.75rem;
+  background: rgba(13, 17, 27, 0.92);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  backdrop-filter: blur(14px);
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.dossier-topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.dossier-badge-live {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 10px var(--cyan);
+  animation: pulse-glow 2s infinite ease-in-out;
+}
+
+.dossier-topbar-title {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+}
+
+.dossier-switch-tabs {
+  display: flex;
+  gap: 0.4rem;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 0.25rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.dossier-tab-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.4rem 0.85rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all 0.2s ease;
+}
+
+.dossier-tab-btn:hover {
+  color: var(--text-pure);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.dossier-tab-btn.active {
+  background: rgba(0, 242, 254, 0.14);
+  color: var(--cyan);
+  border-color: rgba(0, 242, 254, 0.35);
+  box-shadow: 0 0 12px rgba(0, 242, 254, 0.2);
+}
+
+.dossier-tab-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.dossier-close-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dossier-close-btn:hover {
+  background: var(--cyan);
+  color: #040508;
+  border-color: var(--cyan);
+  transform: rotate(90deg);
+}
+
+/* PROFILE HERO BANNER */
+.dossier-hero {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 2.25rem 2.25rem 1.75rem 2.25rem;
+  background: radial-gradient(circle at top left, rgba(0, 242, 254, 0.08), transparent 70%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.dossier-avatar-container {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.dossier-avatar-ring {
+  position: absolute;
+  inset: -7px;
+  border-radius: 50%;
+  border: 2px dashed rgba(0, 242, 254, 0.45);
+  animation: rotate-slow 24s linear infinite;
+}
+
+.dossier-avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 800;
+  color: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 25px rgba(0, 242, 254, 0.25);
+}
+
+.dossier-hero-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.dossier-role-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.dossier-role-tag {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  padding: 0.25rem 0.7rem;
+  border-radius: 4px;
+  border: 1px solid;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.dossier-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.dossier-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-emerald);
+  box-shadow: 0 0 8px var(--accent-emerald);
+}
+
+.dossier-name {
+  font-size: 2.15rem;
+  font-weight: 700;
+  color: var(--text-pure);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.dossier-handle {
+  font-size: 0.8125rem;
+  color: var(--cyan);
+  letter-spacing: 0.08em;
+}
+
+.dossier-tagline {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
   line-height: 1.55;
+  margin: 0;
+}
+
+/* METRICS HUD */
+.dossier-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.dossier-metric-tile {
+  background: rgba(10, 13, 21, 0.95);
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  transition: background 0.2s ease;
+}
+
+.dossier-metric-tile:hover {
+  background: rgba(16, 21, 35, 0.95);
+}
+
+.dossier-metric-label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+}
+
+.dossier-metric-val {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-pure);
+}
+
+.dossier-metric-sub {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* DOSSIER BODY */
+.dossier-body {
+  padding: 2.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.25rem;
+}
+
+.dossier-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.dossier-section-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.dossier-section-tag {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--cyan);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.dossier-section-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-pure);
+  margin: 0;
+}
+
+/* STORY BOX */
+.dossier-story-box {
+  background: rgba(255, 255, 255, 0.02);
+  border-left: 3px solid var(--cyan);
+  border-radius: 0 12px 12px 0;
+  padding: 1.5rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  border-right: 1px solid rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.dossier-story-p {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* RESPONSIBILITIES GRID */
+.dossier-resp-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.dossier-resp-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.dossier-resp-card:hover {
+  border-color: rgba(0, 242, 254, 0.35);
+  background: rgba(0, 242, 254, 0.035);
+  transform: translateY(-2px);
+}
+
+.dossier-resp-num {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--cyan);
+  letter-spacing: 0.1em;
+}
+
+.dossier-resp-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-pure);
+}
+
+.dossier-resp-desc {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* TECH BADGES */
+.dossier-tech-cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.dossier-tech-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(0, 242, 254, 0.05);
+  border: 1px solid rgba(0, 242, 254, 0.2);
+  color: #e2e8f0;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.dossier-tech-badge:hover {
+  background: rgba(0, 242, 254, 0.14);
+  border-color: var(--cyan);
+  color: var(--cyan);
+  transform: translateY(-1px);
+}
+
+.dossier-tech-glyph {
+  color: var(--cyan);
+  font-size: 0.75rem;
+}
+
+/* QUOTE CARD */
+.dossier-quote-card {
+  position: relative;
+  background: linear-gradient(135deg, rgba(13, 20, 36, 0.7), rgba(9, 13, 22, 0.9));
+  border: 1px solid rgba(0, 242, 254, 0.2);
+  border-radius: 14px;
+  padding: 2rem 2.25rem;
+  overflow: hidden;
+}
+
+.dossier-quote-icon {
+  position: absolute;
+  top: 0.5rem;
+  left: 1.25rem;
+  font-size: 4.5rem;
+  font-family: serif;
+  color: rgba(0, 242, 254, 0.08);
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+}
+
+.dossier-quote-text {
+  font-size: 1.05rem;
+  font-style: italic;
+  line-height: 1.65;
+  color: #f1f5f9;
+  margin: 0 0 1rem 0;
+  position: relative;
+  z-index: 1;
+}
+
+.dossier-quote-author {
+  font-size: 0.8125rem;
+  color: var(--cyan);
+  letter-spacing: 0.06em;
+  position: relative;
+  z-index: 1;
+}
+
+/* BOTTOM BAR */
+.dossier-bottom-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 2.25rem;
+  background: rgba(10, 14, 23, 0.95);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  flex-wrap: wrap;
+  gap: 1rem;
 }
