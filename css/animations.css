@@ -4,97 +4,200 @@
    ========================================================================== */
 
 /* ==========================================================================
-   CINEMATIC INTRO SCREEN
+   CINEMATIC INTRO SCREEN (FAST, SKIPPABLE & FAILSAFE)
    ========================================================================== */
 #intro-screen {
   position: fixed;
   inset: 0;
-  background: #030406;
-  z-index: 9999;
+  background: radial-gradient(ellipse at center, #090c13 0%, #030406 100%);
+  z-index: 99999;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s ease;
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.75s ease;
   user-select: none;
+  overflow: hidden;
+  /* Failsafe: Automatically dismisses after 2.4s even if JS stalls */
+  animation: introFailsafeDismiss 2.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 #intro-screen.intro-finished {
-  opacity: 0;
-  visibility: hidden;
+  opacity: 0 !important;
+  transform: scale(1.02) !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+.intro-particles-glow {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 242, 254, 0.12) 0%, transparent 70%);
+  filter: blur(60px);
   pointer-events: none;
+  animation: pulse-glow 3s infinite ease-in-out;
 }
 
 .intro-content {
   text-align: center;
   position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1.5rem;
 }
 
+.intro-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.75rem, 2vw, 1.5rem);
+  flex-wrap: wrap;
+}
+
 .intro-word {
   font-family: var(--font-heading);
   font-size: clamp(2.5rem, 8vw, 6rem);
   font-weight: 800;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.14em;
   color: #ffffff;
+  display: inline-block;
   opacity: 0;
-  transform: translateY(16px) scale(0.96);
-  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  display: block;
-}
-
-.intro-word.visible {
-  opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: translateY(18px) scale(0.96);
+  animation: introWordIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
 }
 
 .intro-word-hq {
   color: var(--cyan);
-  text-shadow: 0 0 35px rgba(0, 242, 254, 0.6);
+  text-shadow: 0 0 40px rgba(0, 242, 254, 0.65), 0 0 80px rgba(0, 242, 254, 0.3);
+  animation-delay: 0.32s;
 }
 
 .intro-status {
   font-family: var(--font-mono);
-  font-size: 0.8125rem;
-  letter-spacing: 0.25em;
+  font-size: clamp(0.75rem, 2vw, 0.875rem);
+  letter-spacing: 0.28em;
   color: var(--emerald);
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
   display: flex;
   align-items: center;
-  gap: 0.65rem;
+  gap: 0.75rem;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: introStatusIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.55s forwards;
+  padding: 0.45rem 1.1rem;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  border-radius: 9999px;
+  box-shadow: 0 0 25px rgba(16, 185, 129, 0.15);
 }
 
-.intro-status.visible {
-  opacity: 1;
-  transform: translateY(0);
+.intro-status-pulse {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--emerald);
+  box-shadow: 0 0 10px var(--emerald);
+  animation: pulse-glow 1.5s infinite ease-in-out;
 }
 
 .intro-skip-btn {
   position: absolute;
-  bottom: 3rem;
-  right: 3rem;
-  padding: 0.5rem 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 999px;
+  bottom: clamp(1.5rem, 4vw, 3rem);
+  right: clamp(1.5rem, 4vw, 3rem);
+  padding: 0.55rem 1.15rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 9999px;
   color: var(--text-secondary);
   font-family: var(--font-mono);
   font-size: 0.75rem;
   letter-spacing: 0.08em;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
   cursor: pointer;
-  z-index: 10000;
+  z-index: 10;
+  backdrop-filter: blur(8px);
 }
 
 .intro-skip-btn:hover {
-  background: rgba(255, 255, 255, 0.12);
-  color: #fff;
-  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(0, 242, 254, 0.12);
+  color: var(--cyan);
+  border-color: rgba(0, 242, 254, 0.4);
+  box-shadow: 0 0 15px rgba(0, 242, 254, 0.2);
+  transform: translateY(-2px);
+}
+
+@keyframes introWordIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.96);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0px);
+  }
+}
+
+@keyframes introStatusIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes introFailsafeDismiss {
+  0%, 75% {
+    opacity: 1;
+    visibility: visible;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+/* ==========================================================================
+   TEAM DOSSIER MODAL ANIMATIONS
+   ========================================================================== */
+dialog#team-dialog[open] {
+  animation: dossierModalEnter 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+}
+
+@keyframes dossierModalEnter {
+  0% {
+    opacity: 0;
+    transform: scale(0.93) translateY(22px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+dialog#team-dialog[open]::backdrop {
+  animation: dossierBackdropEnter 0.35s ease forwards !important;
+}
+
+@keyframes dossierBackdropEnter {
+  0% {
+    background-color: rgba(0, 0, 0, 0);
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+  }
+  100% {
+    background-color: rgba(4, 5, 8, 0.88);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
 }
 
 /* Keyframes */
@@ -168,11 +271,111 @@
   }
 }
 
+@keyframes rotate-clockwise {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotate-counter {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes radar-sweep-360 {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes laser-pulse-flow {
+  0% {
+    left: -20%;
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    left: 120%;
+    opacity: 0;
+  }
+}
+
+@keyframes synapse-orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes beacon-ping {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.9;
+  }
+  60% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+@keyframes card-scanline-sweep {
+  0% {
+    top: -10%;
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.6;
+  }
+  70% {
+    opacity: 0.6;
+  }
+  100% {
+    top: 110%;
+    opacity: 0;
+  }
+}
+
+/* Top Viewport Laser Scroll Progress Indicator */
+.scroll-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--cyan) 0%, #38bdf8 50%, #818cf8 100%);
+  box-shadow: 0 0 10px rgba(0, 242, 254, 0.8), 0 0 20px rgba(0, 242, 254, 0.4);
+  z-index: 9999;
+  pointer-events: none;
+  transition: width 0.08s ease-out;
+}
+
 /* Scroll reveal classes for GSAP & IntersectionObserver fallback */
 .reveal-fade-up {
   opacity: 0;
-  transform: translateY(30px);
+  transform: translateY(35px);
   transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
 }
 
 .reveal-fade-up.is-revealed {
@@ -211,6 +414,29 @@
 }
 
 /* ==========================================================================
+   EXPLODING STARS & COSMIC SUPERNOVA BACKGROUND
+   Calibrated from HQ Command Center to Deep Dossier Operatives
+   ========================================================================== */
+.supernova-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.85s ease;
+  will-change: opacity;
+}
+
+.supernova-canvas.supernova-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ==========================================================================
    PREFERS REDUCED MOTION (Strict Accessibility Compliance)
    ========================================================================== */
 @media (prefers-reduced-motion: reduce) {
@@ -221,7 +447,9 @@
     scroll-behavior: auto !important;
   }
 
-  #ambient-canvas {
+  #ambient-canvas,
+  #supernova-canvas,
+  .supernova-canvas {
     display: none !important;
   }
 

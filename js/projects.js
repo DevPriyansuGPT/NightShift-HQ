@@ -57,24 +57,24 @@ export const PROJECTS_DATA = {
 
   classified: {
     id: 'classified',
-    title: 'CLASSIFIED PROJECT',
-    tagline: 'Access Restricted — Encryption protocol Level 4 active.',
-    status: 'CLASSIFIED',
+    title: 'CLASSIFIED',
+    tagline: 'SECURITY CLEARANCE LEVEL 4 REQUIRED // ACCESS RESTRICTED',
+    status: 'LOCKED',
     badgeClass: 'classified',
     index: '03',
     heroImage: 'assets/images/nightshift_hero_bg.jpg',
-    overview: 'This project is currently guarded under strict secrecy. Development logs, architectural blueprints, and visual assets are locked until the official unveiling.',
-    technologies: ['Quantum State Logic', 'Neural Orchestration', 'Classified Pipeline'],
+    isClassified: true,
+    overview: 'Strictly confidential next-generation initiative. Architectural blueprints, code repositories, and user experience paradigms are offline and encrypted in hardware security modules.',
+    technologies: ['Quantum State Logic', 'Neural Orchestration', 'Encrypted Stack'],
     timeline: [
-      { date: 'Status', title: 'Security Clearance Required', desc: 'Project information is stored in encrypted offline vaults.' }
+      { date: 'Protocol', title: 'Clearance Required', desc: 'No unauthorized inspection permitted.' }
     ],
     features: [
-      { title: 'Encrypted Architecture', desc: 'Zero data leakage prior to the official premiere.' },
-      { title: 'Next-Gen Creative Tech', desc: 'Exploring unreleased paradigms in personal digital tools.' }
+      { title: 'Zero Leakage', desc: 'All telemetry and functional logic remain encrypted.' }
     ],
-    challenges: 'Keeping it secret while building in the dark.',
-    lessonsLearned: 'Great creations take shape when built with pure focus away from noise.',
-    finalResult: 'To be revealed when ready.'
+    challenges: 'Guarding confidential creative paradigms while building in stealth.',
+    lessonsLearned: 'The most impactful creations take shape in quiet secrecy away from premature public scrutiny.',
+    finalResult: 'Classified until public release.'
   }
 };
 
@@ -82,56 +82,62 @@ export const EXPERIMENTS_DATA = [
   {
     id: 'exp-solar',
     title: 'Orbital Solar Simulation',
-    category: 'Python / Physics',
+    category: 'Python Experiments',
     catBadge: 'Python',
     fileRef: 'solar_system.py',
     desc: 'Gravitational n-body orbital simulation calculating real-time planetary trajectories and Keplerian mechanics.',
-    tags: ['Python', 'Math', 'Kinematics']
+    tags: ['Python', 'Kinematics', 'Orbital Math'],
+    codeSnippet: `import math\n\ndef calculate_orbit(time_step, mass, velocity):\n    # Gravitational vector pull\n    G = 6.67430e-11\n    accel = (G * mass) / (radius ** 2)\n    return velocity + accel * time_step`
   },
   {
     id: 'exp-heart',
     title: 'Procedural Heart Curve',
-    category: 'Animation / Math',
+    category: 'Animation Experiments',
     catBadge: 'Animation',
     fileRef: 'heart_animation.py',
     desc: 'Trigonometric parametric curve animation calculating cardiac pulsation pulses with smooth color spectra.',
-    tags: ['Trigonometry', 'Motion', 'Python']
+    tags: ['Trigonometry', 'Motion Curves', 'Python'],
+    codeSnippet: `def heart_curve(t):\n    x = 16 * (math.sin(t) ** 3)\n    y = 13 * math.cos(t) - 5 * math.cos(2*t) - 2 * math.cos(3*t) - math.cos(4*t)\n    return (x, y)`
   },
   {
     id: 'exp-shakti',
     title: 'Shakti Digital Pujo',
-    category: 'Creative Tech',
+    category: 'Creative Coding',
     catBadge: 'Creative',
     fileRef: 'Shakti_Digital_Pujo',
     desc: 'Cultural digital art experience transforming traditional ritual motifs into dynamic procedural canvas animations.',
-    tags: ['Visual Art', 'Procedural', 'Culture']
+    tags: ['Visual Art', 'Procedural', 'Culture Canvas'],
+    codeSnippet: `// Procedural radiant mandala aura\nfor (let theta = 0; theta < Math.PI * 2; theta += step) {\n  const r = baseRadius + Math.sin(theta * petals + phase) * amplitude;\n  ctx.lineTo(cx + Math.cos(theta) * r, cy + Math.sin(theta) * r);\n}`
   },
   {
     id: 'exp-neural',
     title: 'Neural Core Node Graph',
-    category: 'AI / UI Experiment',
-    catBadge: 'AI Experiment',
+    category: 'UI Experiments',
+    catBadge: 'UI Experiments',
     fileRef: 'NEURAL_CORE',
     desc: 'Interactive visual node-graph simulating multi-agent neural thought pathways and contextual memory synapses.',
-    tags: ['Graph Theory', 'Canvas', 'Agents']
+    tags: ['Graph Theory', 'Canvas', 'Agent Synapse'],
+    codeSnippet: `class SynapticEdge {\n  constructor(nodeA, nodeB, weight) {\n    this.source = nodeA;\n    this.target = nodeB;\n    this.pulsePhase = 0;\n  }\n}`
   },
   {
     id: 'exp-durga',
     title: 'Durga Reel Visual Engine',
-    category: 'Motion / Video',
-    catBadge: 'Motion',
+    category: 'Animation Experiments',
+    catBadge: 'Animation',
     fileRef: 'durga-reel',
     desc: 'Dynamic video asset generator combining timed beat synchronizations, glow typography, and particle bursts.',
-    tags: ['Video Gen', 'Audio Sync', 'Motion']
+    tags: ['Video Gen', 'Audio Sync', 'Motion Typography'],
+    codeSnippet: `function syncBeatDrop(bpm, timeSec) {\n  const interval = 60 / bpm;\n  const beatIndex = Math.floor(timeSec / interval);\n  const pulse = Math.pow(1 - (timeSec % interval) / interval, 2);\n  return { beatIndex, pulse };\n}`
   },
   {
     id: 'exp-ganapati',
     title: 'Ganapati Bappa Coded Vector',
-    category: 'Animation / Code Art',
-    catBadge: 'Vector Art',
+    category: 'Creative Coding',
+    catBadge: 'Creative',
     fileRef: 'Ganapati_Bappa_Coded_Animation',
     desc: 'Algorithmic geometric line-rendering creating sacred iconography purely through coordinate calculations.',
-    tags: ['Vector', 'Math Art', 'Generative']
+    tags: ['Vector Math', 'Generative', 'Sacred Geometry'],
+    codeSnippet: `// Coordinate geometry path tracing\nfunction drawModak(x, y, scale) {\n  ctx.beginPath();\n  ctx.moveTo(x, y - 20 * scale);\n  ctx.bezierCurveTo(x + 15 * scale, y, x + 10 * scale, y + 20 * scale, x, y + 20 * scale);\n}`
   }
 ];
 
@@ -148,87 +154,127 @@ export const CREATIVE_ARCHIVE_DATA = [
   },
   {
     title: 'NightShift HQ Core Visuals',
-    category: 'Visual Design',
+    category: 'Spatial Architecture',
     img: 'assets/images/nightshift_hero_bg.jpg'
   }
 ];
 
 /**
- * Initializes the Project Detail Modal (<dialog>) system.
+ * Initializes Project Detail Dialog System & 3D Tilt Micro-interactions
  */
 export function initProjectModal() {
   const dialog = document.getElementById('project-dialog');
-  if (!dialog) return;
-
-  const closeBtn = document.getElementById('modal-close-btn');
   const modalContent = document.getElementById('modal-dynamic-content');
 
-  // Open modal for a given project ID
-  window.openProjectModal = function(projectId) {
+  // Expose global opener for inline onclick or event listener binding
+  window.openProjectModal = (projectId) => {
+    if (!dialog || !modalContent) return;
+
     const data = PROJECTS_DATA[projectId];
     if (!data) return;
 
-    modalContent.innerHTML = `
-      <div class="modal-inner">
-        <div class="modal-header-hero">
-          <img src="${data.heroImage}" alt="${data.title}" class="modal-hero-img" loading="lazy">
-          <button type="button" class="modal-close-btn" id="modal-close-btn-inner" aria-label="Close modal">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    // Strict Rule for Classified Project (Brief #7): Do NOT reveal any information about it.
+    if (data.isClassified) {
+      modalContent.innerHTML = `
+        <div class="modal-inner classified-modal-inner">
+          <button class="modal-close-btn" id="modal-close-btn-inner" aria-label="Close Security Modal">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
           </button>
-        </div>
-        <div class="modal-body">
-          <div class="modal-meta-bar">
-            <div class="status-badge ${data.badgeClass}">
-              <span class="status-indicator-dot"></span>
-              ${data.status}
+          
+          <div class="classified-lock-banner">
+            <div class="classified-lock-icon-wrap">
+              <svg class="classified-lock-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
             </div>
-            <span class="mono" style="font-size:0.8125rem; color:var(--text-muted);">PROJECT ARCHIVE // ${data.index}</span>
+            <div class="mono" style="color:var(--rose); font-size:0.875rem; letter-spacing:0.2em; font-weight:700;">SECURITY CLEARANCE DENIED</div>
+            <h2 class="classified-modal-heading" id="modal-cipher-title">ACCESS RESTRICTED // LEVEL 4</h2>
           </div>
 
-          <h2 class="modal-title">${data.title}</h2>
-          <p class="modal-tagline">${data.tagline}</p>
-
-          <div class="modal-section">
-            <div class="modal-section-title">System Overview</div>
-            <p style="color:var(--text-primary); line-height:1.7;">${data.overview}</p>
+          <div class="classified-terminal-box mono">
+            <div class="classified-terminal-line"><span class="text-rose">[SECURITY_ALERT]</span> Unauthorized inspection attempt logged on vault node.</div>
+            <div class="classified-terminal-line"><span class="text-cyan">[ENCRYPTION]</span> 4096-bit post-quantum cipher active. State: LOCKED.</div>
+            <div class="classified-terminal-line"><span class="text-secondary">[PROTOCOL]</span> Project 03 specifications and assets are offline and strictly confidential.</div>
+            <div class="classified-terminal-line" style="color:var(--rose); font-weight:600;">[STATUS] ACCESS DENIED. NO DATA REVEALED.</div>
           </div>
 
-          <div class="modal-section">
-            <div class="modal-section-title">Core Architecture & Tech Stack</div>
-            <div class="project-tech-tags">
-              ${data.technologies.map(t => `<span class="tech-tag">${t}</span>`).join('')}
-            </div>
-          </div>
-
-          <div class="modal-section">
-            <div class="modal-section-title">Key Architectural Features</div>
-            <div class="modal-grid-2">
-              ${data.features.map(f => `
-                <div class="modal-feature-card">
-                  <div class="modal-feature-title">${f.title}</div>
-                  <div style="font-size:0.85rem; color:var(--text-secondary); line-height:1.5;">${f.desc}</div>
-                </div>
-              `).join('')}
-            </div>
-          </div>
-
-          <div class="modal-section">
-            <div class="modal-section-title">Engineering Challenges & Solutions</div>
-            <p style="font-size:0.9375rem; color:var(--text-secondary); line-height:1.6;">${data.challenges}</p>
-          </div>
-
-          <div class="modal-section">
-            <div class="modal-section-title">Lessons Learned</div>
-            <p style="font-size:0.9375rem; color:var(--text-secondary); line-height:1.6;">${data.lessonsLearned}</p>
-          </div>
-
-          <div class="modal-section" style="margin-bottom:0;">
-            <div class="modal-section-title">Final Verdict</div>
-            <p style="font-size:0.9375rem; color:var(--cyan); font-weight:500;">${data.finalResult}</p>
+          <div style="margin-top:2rem; text-align:center;">
+            <p style="font-size:0.875rem; color:var(--text-muted); max-width:440px; margin:0 auto 1.5rem auto;">
+              In accordance with NightShift HQ security guidelines, unreleased project blueprinted parameters remain in the dark until official public release.
+            </p>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('project-dialog').close()">
+              <span>RETURN TO HQ</span>
+            </button>
           </div>
         </div>
-      </div>
-    `;
+      `;
+    } else {
+      modalContent.innerHTML = `
+        <div class="modal-inner">
+          <button class="modal-close-btn" id="modal-close-btn-inner" aria-label="Close Project Case Study">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+
+          <div class="modal-hero-wrap">
+            <img src="${data.heroImage}" alt="${data.title} Project Visual" class="modal-hero-img">
+            <div class="modal-hero-overlay"></div>
+          </div>
+
+          <div class="modal-body">
+            <div class="modal-meta-bar">
+              <div class="status-badge ${data.badgeClass}">
+                <span class="status-indicator-dot"></span>
+                STATUS: ${data.status}
+              </div>
+              <span class="mono" style="font-size:0.8125rem; color:var(--text-muted);">PROJECT ARCHIVE // ${data.index}</span>
+            </div>
+
+            <h2 class="modal-title">${data.title}</h2>
+            <p class="modal-tagline">${data.tagline}</p>
+
+            <div class="modal-section">
+              <div class="modal-section-title">System Overview</div>
+              <p style="color:var(--text-primary); line-height:1.7;">${data.overview}</p>
+            </div>
+
+            <div class="modal-section">
+              <div class="modal-section-title">Core Architecture & Tech Stack</div>
+              <div class="project-tech-tags">
+                ${data.technologies.map(t => `<span class="tech-tag">${t}</span>`).join('')}
+              </div>
+            </div>
+
+            <div class="modal-section">
+              <div class="modal-section-title">Key Architectural Features</div>
+              <div class="modal-grid-2">
+                ${data.features.map(f => `
+                  <div class="modal-feature-card">
+                    <div class="modal-feature-title">${f.title}</div>
+                    <div style="font-size:0.85rem; color:var(--text-secondary); line-height:1.5;">${f.desc}</div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+            <div class="modal-section">
+              <div class="modal-section-title">Engineering Challenges & Solutions</div>
+              <p style="font-size:0.9375rem; color:var(--text-secondary); line-height:1.6;">${data.challenges}</p>
+            </div>
+
+            <div class="modal-section">
+              <div class="modal-section-title">Lessons Learned</div>
+              <p style="font-size:0.9375rem; color:var(--text-secondary); line-height:1.6;">${data.lessonsLearned}</p>
+            </div>
+
+            <div class="modal-section" style="margin-bottom:0;">
+              <div class="modal-section-title">Status in Studio</div>
+              <p style="font-size:0.9375rem; color:var(--cyan); font-weight:500;">${data.finalResult}</p>
+            </div>
+          </div>
+        </div>
+      `;
+    }
 
     // Bind inner close button
     const innerClose = document.getElementById('modal-close-btn-inner');
@@ -240,20 +286,56 @@ export function initProjectModal() {
   };
 
   // Light dismiss (click on backdrop to close)
-  dialog.addEventListener('click', (e) => {
-    const rect = dialog.getBoundingClientRect();
-    const isInDialog = (
-      rect.top <= e.clientY &&
-      e.clientY <= rect.top + rect.height &&
-      rect.left <= e.clientX &&
-      e.clientX <= rect.left + rect.width
-    );
-    if (!isInDialog) {
-      dialog.close();
-    }
-  });
+  if (dialog) {
+    dialog.addEventListener('click', (e) => {
+      const rect = dialog.getBoundingClientRect();
+      const isInDialog = (
+        rect.top <= e.clientY &&
+        e.clientY <= rect.top + rect.height &&
+        rect.left <= e.clientX &&
+        e.clientX <= rect.left + rect.width
+      );
+      if (!isInDialog) {
+        dialog.close();
+      }
+    });
+  }
 
+  const closeBtn = document.getElementById('modal-close-btn');
   if (closeBtn) {
     closeBtn.addEventListener('click', () => dialog.close());
   }
+
+  // Desktop 3D tilt interaction for project cards
+  initProjectCardTilt();
+}
+
+/**
+ * 3D Perspective Tilt on Desktop (Subtle, controlled, pure GPU transforms)
+ */
+function initProjectCardTilt() {
+  // Respect reduced motion
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (window.innerWidth < 1024) return; // Desktop only
+
+  const cards = document.querySelectorAll('.project-card');
+  cards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      
+      const rotateX = ((y - centerY) / centerY) * -4; // Max -4deg to 4deg
+      const rotateY = ((x - centerX) / centerX) * 4;
+
+      card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-4px)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  });
 }

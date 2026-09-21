@@ -29,22 +29,30 @@
 </head>
 <body>
 
+  <!-- Top Laser Scroll Progress Indicator -->
+  <div id="scroll-progress-bar" class="scroll-progress-bar" aria-hidden="true"></div>
+
   <!-- Ambient Interactive Background Canvas & Film Grain -->
   <canvas id="ambient-canvas"></canvas>
+  <!-- Exploding Stars & Cosmic Supernova Canvas (Command Center to Deep Dossier Operatives) -->
+  <canvas id="supernova-canvas" class="supernova-canvas" aria-hidden="true"></canvas>
   <div class="noise-overlay" aria-hidden="true"></div>
 
-  <!-- 03: OPENING EXPERIENCE (Skippable Cinematic Intro) -->
-  <div id="intro-screen" role="dialog" aria-modal="true" aria-label="Intro Sequence">
+  <!-- 03: OPENING CINEMATIC EXPERIENCE (Skippable, Fast 1.4s, Seamless Reveal) -->
+  <div id="intro-screen" class="intro-screen" role="dialog" aria-modal="true" aria-label="Intro Sequence">
+    <div class="intro-particles-glow" aria-hidden="true"></div>
     <div class="intro-content">
-      <span class="intro-word" id="intro-nightshift">NIGHTSHIFT</span>
-      <span class="intro-word intro-word-hq" id="intro-hq">HQ</span>
+      <div class="intro-brand">
+        <span class="intro-word" id="intro-nightshift">NIGHTSHIFT</span>
+        <span class="intro-word intro-word-hq" id="intro-hq">HQ</span>
+      </div>
       <div class="intro-status" id="intro-status">
-        <span class="status-indicator-dot"></span>
-        SYSTEM ONLINE
+        <span class="intro-status-pulse"></span>
+        <span>SYSTEM ONLINE</span>
       </div>
     </div>
-    <button class="intro-skip-btn" id="intro-skip-btn" aria-label="Skip Intro Sequence">
-      SKIP INTRO [ESC]
+    <button class="intro-skip-btn" id="intro-skip-btn" type="button" aria-label="Skip Intro Sequence">
+      <span>SKIP INTRO [ESC]</span>
     </button>
   </div>
 
@@ -58,16 +66,34 @@
         </a>
 
         <div class="nav-links" id="nav-links">
-          <a href="#command-center" class="nav-link">Command</a>
-          <a href="#project-archive" class="nav-link">Archive</a>
-          <a href="#experiment-lab" class="nav-link">Lab</a>
+          <a href="#hero" class="nav-link">Home</a>
+          <a href="#command-center" class="nav-link">Command Center</a>
+          <a href="#project-archive" class="nav-link">Projects</a>
+          <a href="#experiment-lab" class="nav-link">Experiment Lab</a>
           <a href="#timeline" class="nav-link">Timeline</a>
           <a href="#dev-log" class="nav-link">Dev Log</a>
           <a href="#skills" class="nav-link">Skills</a>
-          <a href="#about" class="nav-link">Studio</a>
+          <a href="#about" class="nav-link">About</a>
+          
+          <div class="nav-mobile-status-card">
+            <div class="mobile-status-row">
+              <span class="status-indicator-dot"></span>
+              <span class="mono">HQ STATUS: ONLINE</span>
+            </div>
+            <div class="mobile-status-row" style="color:var(--cyan);">
+              <span class="control-room-dot"></span>
+              <span class="mono">CONTROL ROOM: CONNECTED</span>
+            </div>
+            <div class="mono" style="font-size:0.75rem; color:var(--text-muted); margin-top:0.5rem;" id="nav-mobile-clock">IST // --:--:--</div>
+          </div>
         </div>
 
         <div class="header-actions">
+          <div class="control-room-badge header-control-room mono" title="Public HQ synchronized with private development workspace">
+            <span class="control-room-dot"></span>
+            <span class="control-room-text">CONTROL ROOM: CONNECTED</span>
+          </div>
+
           <button id="sound-toggle" class="sound-toggle" type="button" aria-label="Toggle Telemetry Audio">
             <div class="sound-waves" aria-hidden="true">
               <span class="sound-wave"></span>
@@ -90,12 +116,60 @@
     
     <!-- 04: HERO SECTION -->
     <section class="hero-section" id="hero" aria-labelledby="hero-heading">
-      <div class="hero-background-art" style="background-image: url('assets/images/nightshift_hero_bg.jpg');" aria-hidden="true"></div>
+      <div class="hero-background-art" id="hero-bg-art" style="background-image: url('assets/images/nightshift_hero_bg.jpg');" aria-hidden="true"></div>
+      <div class="hero-atmospheric-glow" aria-hidden="true"></div>
       <div class="site-container">
-        <div class="hero-content">
-          <div class="hero-badge reveal-fade-up">
-            <span class="status-dot-pulse"></span>
-            <span>DIGITAL HEADQUARTERS // SYSTEM ONLINE</span>
+        <div class="hero-content" id="hero-content-wrap">
+          
+          <!-- Interactive Status Indicator Button & Elegant Popover Panel -->
+          <div class="hero-status-wrapper reveal-fade-up">
+            <button class="hero-badge hero-status-btn" id="hero-status-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="status-panel-popover" title="Tap to inspect real-time HQ telemetry status">
+              <span class="status-dot-pulse"></span>
+              <span>DIGITAL HEADQUARTERS // SYSTEM ONLINE</span>
+              <span class="hero-status-tag mono">[STATUS]</span>
+            </button>
+
+            <!-- Status Panel Popover (v2 Brief #3) -->
+            <div id="status-panel-popover" class="status-panel-dropdown" role="region" aria-label="HQ Real-Time Status" hidden>
+              <div class="status-panel-arrow" aria-hidden="true"></div>
+              <div class="status-panel-header">
+                <div class="status-panel-tag mono">
+                  <span class="status-dot-pulse sm"></span>
+                  <span>HQ TELEMETRY // REAL-TIME</span>
+                </div>
+                <button class="status-panel-close" id="status-popover-close" type="button" aria-label="Close status panel">✕</button>
+              </div>
+              <div class="status-panel-rows">
+                <div class="status-panel-row">
+                  <span class="status-panel-key">HQ STATUS:</span>
+                  <span class="status-panel-val text-emerald">
+                    <span class="status-indicator-dot"></span> ONLINE
+                  </span>
+                </div>
+                <div class="status-panel-row">
+                  <span class="status-panel-key">SYSTEM:</span>
+                  <span class="status-panel-val text-cyan">
+                    <span class="status-indicator-dot"></span> STABLE
+                  </span>
+                </div>
+                <div class="status-panel-row">
+                  <span class="status-panel-key">PROJECTS:</span>
+                  <span class="status-panel-val text-amber">
+                    <span class="status-indicator-dot"></span> ACTIVE
+                  </span>
+                </div>
+                <div class="status-panel-row">
+                  <span class="status-panel-key">CONTROL ROOM:</span>
+                  <span class="status-panel-val text-violet">
+                    <span class="status-indicator-dot"></span> CONNECTED
+                  </span>
+                </div>
+              </div>
+              <div class="status-panel-footer mono">
+                <span>LATENCY: &lt;1ms</span>
+                <span>CLEARANCE: PUBLIC</span>
+              </div>
+            </div>
           </div>
 
           <h1 class="hero-headline reveal-fade-up reveal-delay-1" id="hero-heading">
@@ -111,16 +185,30 @@
           </p>
 
           <div class="hero-actions reveal-fade-up reveal-delay-4">
-            <a href="#command-center" class="btn btn-primary" id="btn-enter-hq">
+            <button type="button" class="btn btn-primary" id="btn-enter-hq" aria-label="Enter Headquarters Command Center">
               <span>ENTER HQ</span>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-            </a>
+            </button>
             <a href="#project-archive" class="btn btn-secondary" id="btn-explore-projects">
               <span>EXPLORE PROJECTS</span>
             </a>
           </div>
         </div>
       </div>
+
+      <!-- Iconic Hero Scroll Down Animated Indicator (v1 Signature Feature) -->
+      <a href="#command-center" class="hero-scroll-indicator" id="hero-scroll-indicator" aria-label="Scroll down to HQ Command Center">
+        <div class="scroll-mouse-pill">
+          <span class="scroll-wheel-dot"></span>
+        </div>
+        <span class="scroll-label mono">SCROLL DOWN</span>
+        <svg class="scroll-arrow-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </a>
+
+      <!-- Cinematic Enter HQ Expansion Portal Overlay -->
+      <div id="hq-enter-portal" class="hq-enter-portal" aria-hidden="true"></div>
     </section>
 
     <!-- 05: HQ COMMAND CENTER -->
@@ -134,30 +222,54 @@
 
         <div class="command-center-grid reveal-fade-up">
           
-          <!-- Status Ribbon Bar -->
-          <div class="hud-panel hud-status-bar">
+          <!-- Status Ribbon Bar (v2 Brief #5 & #12) -->
+          <div class="hud-panel hud-status-bar" id="hud-status-ribbon">
             <div class="status-bar-item">
-              <span class="status-bar-label">HQ STATUS:</span>
-              <div class="status-badge online">
+              <span class="status-bar-label">HQ STATUS</span>
+              <div class="status-bar-val text-emerald">
                 <span class="status-indicator-dot"></span>
-                ONLINE
+                <span>ONLINE</span>
+              </div>
+            </div>
+            <div class="status-bar-item clickable" data-member="founder" role="button" tabindex="0" title="Inspect Founder Dossier">
+              <span class="status-bar-label">FOUNDER</span>
+              <span class="status-bar-val identity-link">Priyansu</span>
+            </div>
+            <div class="status-bar-item clickable" data-member="devteam" role="button" tabindex="0" title="Inspect Development Team Dossier">
+              <span class="status-bar-label">DEVELOPMENT</span>
+              <span class="status-bar-val identity-link" style="color:var(--cyan);">Priyansu + GPT</span>
+            </div>
+            <div class="status-bar-item clickable" data-member="sysmanager" role="button" tabindex="0" title="Inspect System Manager Dossier">
+              <span class="status-bar-label">MANAGEMENT</span>
+              <span class="status-bar-val identity-link" style="color:var(--emerald);">GPT</span>
+            </div>
+            <div class="status-bar-item">
+              <span class="status-bar-label">CURRENT ACTIVITY</span>
+              <div class="status-bar-val" style="color:#fbbf24;">
+                <span class="status-indicator-dot" style="background-color:#fbbf24; box-shadow:0 0 8px #fbbf24;"></span>
+                <span>Cyberpunk 2.0</span>
               </div>
             </div>
             <div class="status-bar-item">
-              <span class="status-bar-label">LOCAL CLOCK:</span>
-              <span class="status-bar-val" id="hud-live-time">14:52:10 IST</span>
+              <span class="status-bar-label">NEXT PHASE</span>
+              <div class="status-bar-val">
+                <span class="status-badge classified" style="font-size:0.65rem; padding:0.2rem 0.5rem;">LOCKED // CLASSIFIED</span>
+              </div>
             </div>
             <div class="status-bar-item">
-              <span class="status-bar-label">SESSION UPTIME:</span>
+              <span class="status-bar-label">CONTROL ROOM</span>
+              <div class="status-bar-val text-violet" title="Public HQ synchronized with private development workspace">
+                <span class="control-room-dot"></span>
+                <span>CONNECTED</span>
+              </div>
+            </div>
+            <div class="status-bar-item">
+              <span class="status-bar-label">HQ TIME (IST)</span>
+              <span class="status-bar-val" id="hud-live-time">--:--:-- IST</span>
+            </div>
+            <div class="status-bar-item">
+              <span class="status-bar-label">SESSION UPTIME</span>
               <span class="status-bar-val mono" id="hud-uptime" style="color:var(--cyan);">00:00:00</span>
-            </div>
-            <div class="status-bar-item">
-              <span class="status-bar-label">CURRENT PROJECT:</span>
-              <span class="status-bar-val" style="color:#fbbf24;">Cyberpunk 2.0</span>
-            </div>
-            <div class="status-bar-item">
-              <span class="status-bar-label">NEXT:</span>
-              <span class="status-badge classified" style="font-size:0.65rem;">CLASSIFIED</span>
             </div>
           </div>
 
@@ -215,35 +327,35 @@
             </div>
           </div>
 
-          <!-- Studio Identity Panel -->
+          <!-- Studio Operative Manifest Panel -->
           <div class="hud-panel hud-identity-card">
             <div class="hud-header">
               <span class="hud-title">
                 <svg class="hud-title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                Creator Manifest
+                Operative Manifest
               </span>
-              <span class="mono" style="font-size:0.75rem; color:var(--text-muted);">ID // CREATIVE-TECH</span>
+              <span class="mono" style="font-size:0.75rem; color:var(--cyan);">CLEARANCE // L4-SEC</span>
             </div>
 
             <div class="identity-details">
               <div class="identity-row clickable" data-member="founder" role="button" tabindex="0" title="Click to view Founder Story & Profile" aria-label="Inspect Founder Story and Profile">
-                <span class="identity-key">FOUNDER</span>
+                <span class="identity-key">ARCHITECT-01</span>
                 <span class="identity-val identity-val-link">Priyansu</span>
               </div>
               <div class="identity-row clickable" data-member="devteam" role="button" tabindex="0" title="Click to view Development Team Story & Profile" aria-label="Inspect Development Team Story and Profile">
-                <span class="identity-key">DEVELOPMENT</span>
+                <span class="identity-key">SYNAPSE CORE</span>
                 <span class="identity-val identity-val-link">Priyansu + GPT</span>
               </div>
               <div class="identity-row clickable" data-member="sysmanager" role="button" tabindex="0" title="Click to view System Manager Story & Profile" aria-label="Inspect System Manager Story and Profile">
-                <span class="identity-key">MANAGEMENT</span>
-                <span class="identity-val identity-val-link">GPT</span>
+                <span class="identity-key">SENTRY ENGINE</span>
+                <span class="identity-val identity-val-link">GPT Sentinel</span>
               </div>
               <div class="identity-row">
-                <span class="identity-key">PHILOSOPHY</span>
+                <span class="identity-key">CREED</span>
                 <span class="identity-val" style="color:var(--cyan);">Ideas after dark.</span>
               </div>
               <div class="identity-row" style="border-bottom:none;">
-                <span class="identity-key">CREATIVE ENGINE</span>
+                <span class="identity-key">STACK PIPELINE</span>
                 <span class="identity-val">Web + Python + Motion</span>
               </div>
             </div>
@@ -266,17 +378,17 @@
           
           <!-- PROJECT 01: LIFEOS (Featured / Shipped) -->
           <div class="project-card-wrapper featured reveal-fade-up">
-            <article class="project-card" id="card-lifeos">
+            <article class="project-card" id="card-lifeos" data-project="lifeos">
               <div class="project-preview-wrap">
                 <img src="assets/images/lifeos_preview.jpg" alt="LifeOS Interface Preview" class="project-preview-img" loading="lazy">
                 <div class="project-preview-overlay"></div>
                 <div class="project-card-badge">
                   <span class="status-badge shipped">
                     <span class="status-indicator-dot"></span>
-                    SHIPPED
+                    STATUS: SHIPPED
                   </span>
                 </div>
-                <span class="project-card-index">01 // FLAGSHIP</span>
+                <span class="project-card-index">PROJECT 01</span>
               </div>
 
               <div class="project-info-wrap">
@@ -296,9 +408,9 @@
                 </div>
 
                 <div class="project-footer">
-                  <span class="mono" style="font-size:0.8125rem; color:var(--text-muted);">FOUNDATION // VERSION 2.2</span>
-                  <button type="button" class="btn btn-secondary btn-sm" onclick="openProjectModal('lifeos')" aria-label="Inspect LifeOS Project">
-                    <span>Inspect System</span>
+                  <span class="mono" style="font-size:0.8125rem; color:var(--emerald);">V2.2 // SHIPPED</span>
+                  <button type="button" class="btn btn-secondary btn-sm btn-view-project" onclick="openProjectModal('lifeos')" aria-label="View LifeOS Project Details">
+                    <span>VIEW PROJECT</span>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
                   </button>
                 </div>
@@ -308,19 +420,19 @@
 
           <!-- PROJECT 02: CYBERPUNK 2.0 (Cooking) -->
           <div class="project-card-wrapper reveal-fade-up reveal-delay-1">
-            <article class="project-card cooking" id="card-cyberpunk">
+            <article class="project-card cooking" id="card-cyberpunk" data-project="cyberpunk">
               <div class="project-preview-wrap">
                 <img src="assets/images/cyberpunk_preview.jpg" alt="Cyberpunk 2.0 Spatial Scene Preview" class="project-preview-img" loading="lazy">
                 <div class="project-preview-overlay"></div>
                 <div class="cooking-radar" aria-hidden="true">
                   <span class="status-badge cooking">
                     <span class="status-indicator-dot"></span>
-                    COOKING
+                    STATUS: COOKING
                   </span>
                   <span class="mono" style="font-size:0.75rem; color:var(--text-primary); margin-top:0.75rem; letter-spacing:0.1em;">CURRENTLY IN DEVELOPMENT</span>
                   <div class="cooking-pulse-bar"></div>
                 </div>
-                <span class="project-card-index">02 // ACTIVE</span>
+                <span class="project-card-index">PROJECT 02</span>
               </div>
 
               <div class="project-info-wrap">
@@ -340,8 +452,8 @@
 
                 <div class="project-footer">
                   <span class="mono" style="font-size:0.8125rem; color:#fbbf24;">IN PROGRESS // NIGHT SHIFT</span>
-                  <button type="button" class="btn btn-secondary btn-sm" onclick="openProjectModal('cyberpunk')" aria-label="View Cyberpunk 2.0 Teaser">
-                    <span>View Teaser</span>
+                  <button type="button" class="btn btn-secondary btn-sm btn-view-project" onclick="openProjectModal('cyberpunk')" aria-label="View Cyberpunk 2.0 Project Teaser">
+                    <span>VIEW PROJECT</span>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
                   </button>
                 </div>
@@ -349,9 +461,9 @@
             </article>
           </div>
 
-          <!-- PROJECT 03: CLASSIFIED PROJECT (Encrypted) -->
+          <!-- PROJECT 03: CLASSIFIED PROJECT (Locked / Encrypted) -->
           <div class="project-card-wrapper reveal-fade-up reveal-delay-2">
-            <article class="project-card classified" id="classified-card">
+            <article class="project-card classified" id="classified-card" data-project="classified">
               <div class="project-preview-wrap" style="height:280px; position:relative;">
                 <div class="classified-overlay">
                   <svg class="lock-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -364,15 +476,15 @@
                 <div class="project-card-badge">
                   <span class="status-badge classified">
                     <span class="status-indicator-dot"></span>
-                    CLASSIFIED
+                    STATUS: LOCKED
                   </span>
                 </div>
-                <span class="project-card-index">03 // VAULT</span>
+                <span class="project-card-index">PROJECT 03</span>
               </div>
 
               <div class="project-info-wrap">
                 <div>
-                  <h3 class="project-title">CLASSIFIED PROJECT</h3>
+                  <h3 class="project-title">CLASSIFIED</h3>
                   <p class="project-description">
                     Strictly confidential next-generation initiative. Architectural blueprints, code repositories, and user experience paradigms are offline and encrypted.
                   </p>
@@ -385,9 +497,9 @@
                 </div>
 
                 <div class="project-footer">
-                  <span class="mono" style="font-size:0.8125rem; color:var(--rose);">RESTRICTED PROTOCOL</span>
-                  <button type="button" class="btn btn-secondary btn-sm" onclick="openProjectModal('classified')" aria-label="Inspect Security Clearance">
-                    <span>Security Clearance</span>
+                  <span class="mono" style="font-size:0.8125rem; color:var(--rose);">CLEARANCE: LEVEL 4</span>
+                  <button type="button" class="btn btn-secondary btn-sm btn-view-project" onclick="openProjectModal('classified')" aria-label="View Classified Project Security Clearance">
+                    <span>VIEW PROJECT</span>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
                   </button>
                 </div>
@@ -413,6 +525,13 @@
       </div>
     </dialog>
 
+    <!-- 07.2: EXPERIMENT LAB INSPECT SYSTEM (<dialog> MODAL) -->
+    <dialog id="experiment-dialog" aria-labelledby="experiment-dialog-title">
+      <div id="experiment-dynamic-content">
+        <!-- Content dynamically rendered by js/interactions.js -->
+      </div>
+    </dialog>
+
     <!-- 08: EXPERIMENT LAB -->
     <section class="section" id="experiment-lab" aria-labelledby="lab-heading">
       <div class="site-container">
@@ -420,15 +539,15 @@
           <div>
             <span class="section-tag">R&D & Prototyping</span>
             <h2 class="section-title" id="lab-heading">Experiment Lab</h2>
-            <p class="section-subtitle">Not everything becomes a full project. Some things are experiments. Exploring physics simulations, parametric animations, and algorithmic tools.</p>
+            <p class="section-subtitle">A place for smaller experiments that aren't full projects. Exploring Python experiments, animation experiments, UI prototypes, and creative coding.</p>
           </div>
 
           <div class="lab-filters" role="group" aria-label="Experiment Category Filters">
             <button type="button" class="filter-btn active" data-filter="all">All</button>
             <button type="button" class="filter-btn" data-filter="python">Python</button>
             <button type="button" class="filter-btn" data-filter="animation">Animation</button>
-            <button type="button" class="filter-btn" data-filter="creative">Creative</button>
-            <button type="button" class="filter-btn" data-filter="ai">AI Node</button>
+            <button type="button" class="filter-btn" data-filter="ui">UI Experiments</button>
+            <button type="button" class="filter-btn" data-filter="creative">Creative Coding</button>
           </div>
         </div>
 
@@ -438,63 +557,109 @@
       </div>
     </section>
 
-    <!-- 09: DEVELOPMENT TIMELINE -->
+    <!-- 09: DEVELOPMENT TIMELINE (v2 Brief #9) -->
     <section class="section" id="timeline" aria-labelledby="timeline-heading">
       <div class="site-container">
         <div class="section-header reveal-fade-up">
           <span class="section-tag">Journey & History</span>
           <h2 class="section-title" id="timeline-heading">Development Timeline</h2>
-          <p class="section-subtitle">The progression of the creator's technical evolution from initial lines of code to the digital headquarters.</p>
+          <p class="section-subtitle">Cinematic chronicle of milestones leading to the current headquarters and beyond.</p>
         </div>
 
         <div class="timeline-container">
-          <div class="timeline-spine" aria-hidden="true"></div>
+          <div class="timeline-spine" id="timeline-spine" aria-hidden="true">
+            <div class="timeline-spine-laser" id="timeline-laser"></div>
+          </div>
 
-          <!-- Node 1: NightShift HQ -->
+          <!-- Milestone 1: LIFEOS (PROJECT 01 SHIPPED) -->
           <div class="timeline-item reveal-fade-up">
-            <div class="timeline-node" aria-hidden="true"></div>
+            <div class="timeline-node" aria-hidden="true">
+              <span class="timeline-node-core"></span>
+              <span class="timeline-node-ripple"></span>
+            </div>
             <div class="timeline-content">
-              <span class="timeline-date">SEPTEMBER 2026</span>
-              <h3 class="timeline-title">NIGHTSHIFT HQ (Online)</h3>
+              <div class="timeline-meta-row">
+                <span class="timeline-date mono">PROJECT 01</span>
+                <span class="timeline-milestone-badge mono" style="color:var(--emerald); border-color:rgba(16,185,129,0.4);">SHIPPED</span>
+              </div>
+              <h3 class="timeline-title">LIFEOS</h3>
               <p class="timeline-desc">
-                Constructed the central headquarters uniting LifeOS, Cyberpunk 2.0, experiment labs, and development archives into an authoritative, dark cinematic digital home.
+                Architected and completed the flagship personal digital operating system. Sub-millisecond local caching, refined telemetry widgets, and deep work focus sessions.
               </p>
+              <div class="timeline-tags">
+                <span class="timeline-tag mono">#PROJECT_01</span>
+                <span class="timeline-tag mono">#SHIPPED</span>
+                <span class="timeline-tag mono">#DIGITAL_OS</span>
+              </div>
             </div>
           </div>
 
-          <!-- Node 2: LifeOS V2.2 -->
+          <!-- Milestone 2: NIGHTSHIFT HQ (HQ LAUNCHED) -->
           <div class="timeline-item reveal-fade-up">
-            <div class="timeline-node" aria-hidden="true"></div>
+            <div class="timeline-node" aria-hidden="true">
+              <span class="timeline-node-core"></span>
+              <span class="timeline-node-ripple"></span>
+            </div>
             <div class="timeline-content">
-              <span class="timeline-date">AUGUST 2026</span>
-              <h3 class="timeline-title">LIFEOS V2.2 (Shipped)</h3>
+              <div class="timeline-meta-row">
+                <span class="timeline-date mono">SEPTEMBER 2026</span>
+                <span class="timeline-milestone-badge mono" style="color:var(--cyan); border-color:rgba(0,242,254,0.4);">HQ LAUNCHED</span>
+              </div>
+              <h3 class="timeline-title">NIGHTSHIFT HQ</h3>
               <p class="timeline-desc">
-                Architected the official version of LifeOS with sub-millisecond local caching, refined obsidian telemetry widgets, and deep work focus sessions.
+                Constructed the central digital headquarters uniting LifeOS, Cyberpunk 2.0, experiment labs, and engineering archives into a living creative-tech environment.
               </p>
+              <div class="timeline-tags">
+                <span class="timeline-tag mono">#DIGITAL_HQ</span>
+                <span class="timeline-tag mono">#SYSTEM_ONLINE</span>
+                <span class="timeline-tag mono">#IDEAS_AFTER_DARK</span>
+              </div>
             </div>
           </div>
 
-          <!-- Node 3: Cyberpunk 2.0 -->
+          <!-- Milestone 3: CYBERPUNK 2.0 (COOKING) -->
           <div class="timeline-item reveal-fade-up">
-            <div class="timeline-node" aria-hidden="true"></div>
+            <div class="timeline-node" aria-hidden="true">
+              <span class="timeline-node-core"></span>
+              <span class="timeline-node-ripple"></span>
+            </div>
             <div class="timeline-content">
-              <span class="timeline-date">JULY 2026</span>
-              <h3 class="timeline-title">CYBERPUNK 2.0 (Cooking)</h3>
+              <div class="timeline-meta-row">
+                <span class="timeline-date mono">ACTIVE R&D</span>
+                <span class="timeline-milestone-badge mono" style="color:#fbbf24; border-color:rgba(245,158,11,0.4);">COOKING</span>
+              </div>
+              <h3 class="timeline-title">CYBERPUNK 2.0</h3>
               <p class="timeline-desc">
-                Initiated spatial 3D web experiments exploring atmospheric shaders, rain distortion passes, and neon metropolis geometry running at 60fps.
+                Spatial 3D web experiments exploring atmospheric shaders, rain distortion passes, volumetric city architecture, and cinematic lighting rigs in the browser.
               </p>
+              <div class="timeline-tags">
+                <span class="timeline-tag mono">#THREE_JS</span>
+                <span class="timeline-tag mono">#GLSL_SHADERS</span>
+                <span class="timeline-tag mono">#3D_WEB</span>
+              </div>
             </div>
           </div>
 
-          <!-- Node 4: Future Creations -->
+          <!-- Milestone 4: FUTURE (CLASSIFIED) -->
           <div class="timeline-item reveal-fade-up">
-            <div class="timeline-node" aria-hidden="true"></div>
+            <div class="timeline-node" aria-hidden="true">
+              <span class="timeline-node-core"></span>
+              <span class="timeline-node-ripple"></span>
+            </div>
             <div class="timeline-content">
-              <span class="timeline-date">NEXT HORIZON</span>
-              <h3 class="timeline-title">FUTURE EXPANSIONS</h3>
+              <div class="timeline-meta-row">
+                <span class="timeline-date mono">NEXT HORIZON</span>
+                <span class="timeline-milestone-badge mono" style="color:var(--rose); border-color:rgba(244,63,94,0.4);">CLASSIFIED</span>
+              </div>
+              <h3 class="timeline-title">FUTURE</h3>
               <p class="timeline-desc">
-                Autonomous agent systems, next-gen creative tools, and unreleased paradigms currently taking shape after dark.
+                Strictly confidential next-generation paradigms, autonomous agent workflows, and unreleased creative technology currently taking shape after dark.
               </p>
+              <div class="timeline-tags">
+                <span class="timeline-tag mono">#LOCKED</span>
+                <span class="timeline-tag mono">#ENCRYPTED</span>
+                <span class="timeline-tag mono">#STEALTH</span>
+              </div>
             </div>
           </div>
 
@@ -502,13 +667,13 @@
       </div>
     </section>
 
-    <!-- 10: DEV LOG -->
+    <!-- 10: DEV LOG (v2 Brief #10) -->
     <section class="section" id="dev-log" aria-labelledby="devlog-heading">
       <div class="site-container">
         <div class="section-header reveal-fade-up">
-          <span class="section-tag">Continuous Engineering</span>
+          <span class="section-tag">Engineering Journal</span>
           <h2 class="section-title" id="devlog-heading">Dev Log</h2>
-          <p class="section-subtitle">Chronological engineering journal documenting breakthroughs, architectural choices, and system iterations.</p>
+          <p class="section-subtitle">Chronological engineering entries documenting breakthroughs, architectural choices, and system iterations.</p>
         </div>
 
         <div class="devlog-stream" id="devlog-stream">
@@ -517,74 +682,100 @@
       </div>
     </section>
 
-    <!-- 11: SKILL MATRIX -->
+    <!-- 11: SKILLS / LEARNING (v2 Brief #11: 5 Clean Categories, No Fake Percentages) -->
     <section class="section" id="skills" aria-labelledby="skills-heading">
       <div class="site-container">
         <div class="section-header reveal-fade-up">
-          <span class="section-tag">Competencies</span>
-          <h2 class="section-title" id="skills-heading">Skill Matrix</h2>
-          <p class="section-subtitle">Substantive technical proficiencies and creative capabilities — no fake percentage bars.</p>
+          <span class="section-tag">Continuous Mastery</span>
+          <h2 class="section-title" id="skills-heading">Skills & Learning</h2>
+          <p class="section-subtitle">Active technical domains and creative capabilities — substantive competencies, no fake percentage bars.</p>
         </div>
 
-        <div class="skills-grid">
+        <div class="skills-grid skills-grid-5">
           
+          <!-- Category 1: WEB DEVELOPMENT -->
           <div class="skill-card reveal-fade-up">
             <div class="skill-category-title">
+              <span class="skill-pulse-dot dot-cyan"></span>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
               Web Development
             </div>
-            <p style="font-size:0.875rem; color:var(--text-secondary);">Designing and deploying ultra-fast, zero-bloat web applications with modern architecture.</p>
+            <p style="font-size:0.875rem; color:var(--text-secondary); margin-bottom:1rem;">Building zero-bloat, ultra-fast web experiences with native modern standards.</p>
             <div class="skill-badge-wrap">
               <span class="skill-badge">HTML5 Semantic</span>
               <span class="skill-badge">Modern CSS3 (Tokens, Grid, Subgrid)</span>
               <span class="skill-badge">Vanilla ES6+ JavaScript</span>
-              <span class="skill-badge">Vite Build Tool</span>
-              <span class="skill-badge">Hardware Accelerated Animations</span>
+              <span class="skill-badge">Vite</span>
+              <span class="skill-badge">GPU Acceleration</span>
               <span class="skill-badge">Accessible UX / ARIA</span>
             </div>
           </div>
 
+          <!-- Category 2: PYTHON -->
           <div class="skill-card reveal-fade-up reveal-delay-1">
             <div class="skill-category-title">
+              <span class="skill-pulse-dot dot-emerald"></span>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
-              Python Engineering
+              Python
             </div>
-            <p style="font-size:0.875rem; color:var(--text-secondary);">Programming, automated workflow scripts, and mathematical visual computing.</p>
+            <p style="font-size:0.875rem; color:var(--text-secondary); margin-bottom:1rem;">Scripting, automated workflow pipelines, and mathematical visual computing.</p>
             <div class="skill-badge-wrap">
-              <span class="skill-badge">Physics & Orbital Calculations</span>
-              <span class="skill-badge">Parametric Math & Curves</span>
-              <span class="skill-badge">Procedural Animation Scripts</span>
-              <span class="skill-badge">Automation Pipelines</span>
+              <span class="skill-badge">Kinematics & Physics Sim</span>
+              <span class="skill-badge">Trigonometric Parametrics</span>
+              <span class="skill-badge">Procedural Scripts</span>
               <span class="skill-badge">Data Structures</span>
+              <span class="skill-badge">Automation Tools</span>
             </div>
           </div>
 
+          <!-- Category 3: ANIMATION -->
           <div class="skill-card reveal-fade-up reveal-delay-2">
             <div class="skill-category-title">
+              <span class="skill-pulse-dot dot-amber"></span>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
-              Creative & Visual
+              Animation
             </div>
-            <p style="font-size:0.875rem; color:var(--text-secondary);">Crafting distinctive visual identities, video edits, and motion design.</p>
+            <p style="font-size:0.875rem; color:var(--text-secondary); margin-bottom:1rem;">Crafting fluid choreographies, easing curves, and performant kinetic states.</p>
             <div class="skill-badge-wrap">
-              <span class="skill-badge">Video Editing & Rhythmic Cutting</span>
-              <span class="skill-badge">Motion Typography</span>
-              <span class="skill-badge">Glassmorphism Aesthetics</span>
-              <span class="skill-badge">Sound Design & Web Audio</span>
-              <span class="skill-badge">Dark Mode Direction</span>
+              <span class="skill-badge">CSS Keyframe Choreography</span>
+              <span class="skill-badge">Canvas 2D Particle Engines</span>
+              <span class="skill-badge">Scroll-Driven Reveals</span>
+              <span class="skill-badge">Micro-Interactions</span>
+              <span class="skill-badge">Reduced-Motion Fallbacks</span>
             </div>
           </div>
 
+          <!-- Category 4: UI / UX -->
           <div class="skill-card reveal-fade-up reveal-delay-3">
             <div class="skill-category-title">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-              Currently Learning
+              <span class="skill-pulse-dot dot-violet"></span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+              UI / UX
             </div>
-            <p style="font-size:0.875rem; color:var(--text-secondary);">Active research frontiers pushing capabilities into new horizons.</p>
+            <p style="font-size:0.875rem; color:var(--text-secondary); margin-bottom:1rem;">Designing dark cinematic interfaces, spatial hierarchy, and telemetry dashboards.</p>
             <div class="skill-badge-wrap">
-              <span class="skill-badge">Advanced WebGL & Three.js</span>
-              <span class="skill-badge">Custom GLSL Shaders</span>
-              <span class="skill-badge">Autonomous Agent Orchestration</span>
-              <span class="skill-badge">Spatial Interactive Environments</span>
+              <span class="skill-badge">Glassmorphism & Depth</span>
+              <span class="skill-badge">Dark Mode Direction</span>
+              <span class="skill-badge">Information Architecture</span>
+              <span class="skill-badge">Mobile-First Touch Ergonomics</span>
+              <span class="skill-badge">High Contrast Telemetry</span>
+            </div>
+          </div>
+
+          <!-- Category 5: CREATIVE CODING -->
+          <div class="skill-card reveal-fade-up reveal-delay-4">
+            <div class="skill-category-title">
+              <span class="skill-pulse-dot dot-rose"></span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+              Creative Coding
+            </div>
+            <p style="font-size:0.875rem; color:var(--text-secondary); margin-bottom:1rem;">Pushing boundary experiments combining generative visuals, math art, and shaders.</p>
+            <div class="skill-badge-wrap">
+              <span class="skill-badge">Three.js & WebGL</span>
+              <span class="skill-badge">GLSL Shader Math</span>
+              <span class="skill-badge">Web Audio API Synthesis</span>
+              <span class="skill-badge">Procedural Form Generation</span>
+              <span class="skill-badge">Algorithmic Art</span>
             </div>
           </div>
 
@@ -616,68 +807,437 @@
           <p class="section-subtitle">A personal creative-tech workspace built to experiment, learn, develop, and ship projects.</p>
         </div>
 
-        <!-- Manifesto Banner -->
-        <div class="manifesto-banner reveal-fade-up">
-          <span class="mono" style="font-size:0.8125rem; color:var(--cyan); letter-spacing:0.15em; text-transform:uppercase;">THE PHILOSOPHY</span>
-          <h3 style="font-size:clamp(1.75rem, 3.5vw, 2.5rem); margin: 1rem 0; color:#fff;">Built in the quiet hours.</h3>
-          <p style="max-width:720px; margin:0 auto; font-size:1.05rem; line-height:1.7; color:var(--text-secondary);">
-            NightShift HQ operates under a simple truth: ideas born after dark require dedicated craftsmanship to become real. When the world is quiet, distractions disappear, giving rise to pure creative problem solving.
-          </p>
-
-          <div class="manifesto-steps" aria-label="Development Cycle">
-            <span class="manifesto-step">Think</span>
-            <span class="manifesto-arrow">→</span>
-            <span class="manifesto-step">Build</span>
-            <span class="manifesto-arrow">→</span>
-            <span class="manifesto-step">Break</span>
-            <span class="manifesto-arrow">→</span>
-            <span class="manifesto-step">Fix</span>
-            <span class="manifesto-arrow">→</span>
-            <span class="manifesto-step">Learn</span>
-            <span class="manifesto-arrow">→</span>
-            <span class="manifesto-step" style="border-color:var(--border-cyan); color:var(--cyan);">Ship</span>
+        <!-- Interactive Story Chronicle Terminal & Philosophy Engine -->
+        <div class="story-terminal reveal-fade-up" id="story-chronicle">
+          <!-- Terminal Header HUD -->
+          <div class="story-terminal-header">
+            <div class="story-terminal-meta">
+              <span class="story-live-dot"></span>
+              <span class="mono story-term-title">THE NIGHTSHIFT CHRONICLE // STUDIO ORIGIN & PHILOSOPHY</span>
+            </div>
+            <div class="story-terminal-clock mono" id="story-live-clock">
+              <span class="story-clock-label">SYS_TIME:</span>
+              <span class="story-clock-val" id="story-clock-digits">02:44:00 AM</span>
+              <span class="story-clock-badge">QUIET HOURS</span>
+            </div>
           </div>
+
+          <!-- 3-Act Navigation Bar -->
+          <div class="story-acts-nav" role="tablist" aria-label="Story Acts">
+            <button type="button" class="story-act-btn active" role="tab" aria-selected="true" data-act="1" id="tab-act-1">
+              <span class="story-act-num mono">ACT 01</span>
+              <span class="story-act-name">The 3 AM Spark</span>
+              <span class="story-act-indicator"></span>
+            </button>
+            <button type="button" class="story-act-btn" role="tab" aria-selected="false" data-act="2" id="tab-act-2">
+              <span class="story-act-num mono">ACT 02</span>
+              <span class="story-act-name">The Code Alchemy</span>
+              <span class="story-act-indicator"></span>
+            </button>
+            <button type="button" class="story-act-btn" role="tab" aria-selected="false" data-act="3" id="tab-act-3">
+              <span class="story-act-num mono">ACT 03</span>
+              <span class="story-act-name">Ideas After Dark</span>
+              <span class="story-act-indicator"></span>
+            </button>
+          </div>
+
+          <!-- Dynamic Story Stage Area -->
+          <div class="story-stage-viewport">
+            
+            <!-- Act 1 -->
+            <div class="story-stage-panel active" id="panel-act-1" role="tabpanel" aria-labelledby="tab-act-1">
+              <div class="story-stage-grid">
+                <div class="story-stage-main">
+                  <span class="story-stage-tag mono">CHAPTER 01 // THE MIDNIGHT GENESIS</span>
+                  <h3 class="story-stage-title">Born when the world goes silent.</h3>
+                  <p class="story-stage-lead">
+                    NightShift HQ was never born inside a sterile corporate boardroom or during conventional office hours. It was ignited between 11:00 PM and 4:00 AM—the sacred hours when the outside world powers down and deep uninterrupted focus takes over.
+                  </p>
+                  <p class="story-stage-body">
+                    Frustrated by cookie-cutter design templates, lifeless minimal websites, and generic software without soul, Priyansu set out to forge living digital artifacts. Interfaces that feel like terminal decks from a futuristic cyberpunk metropolis: tactile, kinetic, dark, and alive.
+                  </p>
+                  <div class="story-highlight-pill">
+                    <span class="story-pill-icon">⚡</span>
+                    <span>OBSESSION: Zero mundane defaults. If an interface doesn't make your pulse race upon first interaction, it gets redesigned.</span>
+                  </div>
+                </div>
+                <div class="story-stage-visual">
+                  <div class="story-holo-cube">
+                    <div class="holo-core-graphic">
+                      <div class="holo-ring holo-ring-outer"></div>
+                      <div class="holo-ring holo-ring-middle"></div>
+                      <div class="holo-radar-sweep"></div>
+                      <div class="holo-core-glyph mono">HQ-01</div>
+                    </div>
+                    <div class="holo-stat-cluster">
+                      <div class="holo-stat-item">
+                        <span class="mono holo-stat-num">2,400+</span>
+                        <span class="holo-stat-lbl">Night Hours Logged</span>
+                      </div>
+                      <div class="holo-stat-item">
+                        <span class="mono holo-stat-num">0%</span>
+                        <span class="holo-stat-lbl">Corporate Bloat</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Act 2 -->
+            <div class="story-stage-panel" id="panel-act-2" role="tabpanel" aria-labelledby="tab-act-2">
+              <div class="story-stage-grid">
+                <div class="story-stage-main">
+                  <span class="story-stage-tag mono">CHAPTER 02 // HUMAN + SYNTHETIC COLLABORATION</span>
+                  <h3 class="story-stage-title">Human taste meets synthetic velocity.</h3>
+                  <p class="story-stage-lead">
+                    What happens when human aesthetic discernment collaborates symbiotically with machine cognitive power? The Priyansu + GPT pairing was forged to compress iteration cycles from weeks into single nocturnal sessions.
+                  </p>
+                  <p class="story-stage-body">
+                    Priyansu provides the creative vision, spatial hierarchy, audio feel, and uncompromising taste. GPT generates algorithmic patterns, real-time stress testing, edge-case analysis, and instant mathematical models. The result is pure flow: building at the speed of thought without sacrificing a single pixel of craftsmanship.
+                  </p>
+                  <div class="story-highlight-pill">
+                    <span class="story-pill-icon">🔮</span>
+                    <span>VELOCITY: From 1:30 AM concept sketches to production-ready 60 FPS code before sunrise.</span>
+                  </div>
+                </div>
+                <div class="story-stage-visual">
+                  <div class="story-holo-cube">
+                    <div class="holo-synapse-graphic">
+                      <div class="synapse-orbit">
+                        <div class="synapse-orb synapse-orb-human" title="Human Intuition & Taste"></div>
+                        <div class="synapse-orb synapse-orb-ai" title="Synthetic Processing Power"></div>
+                      </div>
+                      <div class="synapse-core-label mono">10x SYNERGY</div>
+                    </div>
+                    <div class="holo-stat-cluster">
+                      <div class="holo-stat-item">
+                        <span class="mono holo-stat-num">10x</span>
+                        <span class="holo-stat-lbl">Iteration Velocity</span>
+                      </div>
+                      <div class="holo-stat-item">
+                        <span class="mono holo-stat-num">&lt;200ms</span>
+                        <span class="holo-stat-lbl">Idea-to-Code Loop</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Act 3 -->
+            <div class="story-stage-panel" id="panel-act-3" role="tabpanel" aria-labelledby="tab-act-3">
+              <div class="story-stage-grid">
+                <div class="story-stage-main">
+                  <span class="story-stage-tag mono">CHAPTER 03 // THE CODECRAFT MANIFESTO</span>
+                  <h3 class="story-stage-title">Ideas after dark. Relentless execution.</h3>
+                  <p class="story-stage-lead">
+                    Every project emerging from NightShift HQ is treated as an enduring piece of digital architecture. No fake metrics, no template shortcuts, no compromises on accessibility, and no dependencies you can't explain.
+                  </p>
+                  <p class="story-stage-body">
+                    From the sensory feedback of synthesized audio oscillators to procedural starfields and dark glassmorphic surfaces, NightShift HQ is an ongoing pursuit of what software can feel like when crafted with true artistic devotion.
+                  </p>
+                  <div class="story-highlight-pill">
+                    <span class="story-pill-icon">🌌</span>
+                    <span>CREED: Think deep. Build fearless. Break often. Fix cleaner. Ship with pride.</span>
+                  </div>
+                </div>
+                <div class="story-stage-visual">
+                  <div class="story-holo-cube">
+                    <div class="holo-target-graphic">
+                      <div class="target-radar-ring"></div>
+                      <div class="target-crosshair"></div>
+                      <div class="target-badge mono">NIGHTSHIFT HQ</div>
+                    </div>
+                    <div class="holo-stat-cluster">
+                      <div class="holo-stat-item">
+                        <span class="mono holo-stat-num">60+ FPS</span>
+                        <span class="holo-stat-lbl">Kinetic Stability</span>
+                      </div>
+                      <div class="holo-stat-item">
+                        <span class="mono holo-stat-num">100%</span>
+                        <span class="holo-stat-lbl">Bespoke Codecraft</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Interactive Kinetic Pipeline Workflow -->
+          <div class="story-pipeline-wrap">
+            <div class="pipeline-header">
+              <span class="pipeline-label mono">THE CONTINUOUS CRAFTSMANSHIP CYCLE [INTERACTIVE PIPELINE]</span>
+              <span class="pipeline-progress-status mono" id="pipeline-status-text">STAGE 01: THINK // Conceptualization</span>
+            </div>
+            <div class="manifesto-pipeline" role="tablist" aria-label="Development Pipeline Stages">
+              <button type="button" class="pipeline-node active" data-stage="think" aria-selected="true">
+                <span class="pipeline-step-idx mono">01</span>
+                <span class="pipeline-step-title">Think</span>
+                <span class="pipeline-ping" aria-hidden="true"></span>
+              </button>
+              <div class="pipeline-laser" aria-hidden="true"><div class="pipeline-laser-pulse"></div></div>
+              <button type="button" class="pipeline-node" data-stage="build" aria-selected="false">
+                <span class="pipeline-step-idx mono">02</span>
+                <span class="pipeline-step-title">Build</span>
+                <span class="pipeline-ping" aria-hidden="true"></span>
+              </button>
+              <div class="pipeline-laser" aria-hidden="true"><div class="pipeline-laser-pulse"></div></div>
+              <button type="button" class="pipeline-node" data-stage="break" aria-selected="false">
+                <span class="pipeline-step-idx mono">03</span>
+                <span class="pipeline-step-title">Break</span>
+                <span class="pipeline-ping" aria-hidden="true"></span>
+              </button>
+              <div class="pipeline-laser" aria-hidden="true"><div class="pipeline-laser-pulse"></div></div>
+              <button type="button" class="pipeline-node" data-stage="fix" aria-selected="false">
+                <span class="pipeline-step-idx mono">04</span>
+                <span class="pipeline-step-title">Fix</span>
+                <span class="pipeline-ping" aria-hidden="true"></span>
+              </button>
+              <div class="pipeline-laser" aria-hidden="true"><div class="pipeline-laser-pulse"></div></div>
+              <button type="button" class="pipeline-node" data-stage="learn" aria-selected="false">
+                <span class="pipeline-step-idx mono">05</span>
+                <span class="pipeline-step-title">Learn</span>
+                <span class="pipeline-ping" aria-hidden="true"></span>
+              </button>
+              <div class="pipeline-laser" aria-hidden="true"><div class="pipeline-laser-pulse"></div></div>
+              <button type="button" class="pipeline-node pipeline-node-ship" data-stage="ship" aria-selected="false">
+                <span class="pipeline-step-idx mono">06</span>
+                <span class="pipeline-step-title">Ship</span>
+                <span class="pipeline-ping" aria-hidden="true"></span>
+              </button>
+            </div>
+            <!-- Dynamic stage insight readout -->
+            <div class="pipeline-stage-detail" id="pipeline-detail-box">
+              <span class="pipeline-detail-tag mono" id="pipeline-detail-tag">STAGE 01 // THINK</span>
+              <p class="pipeline-detail-desc" id="pipeline-detail-desc">
+                Ideation during the midnight quiet hours. Isolating core user experience problems, sketching spatial interactions, and rejecting default templates.
+              </p>
+            </div>
+          </div>
+
         </div>
 
-        <!-- Team Section -->
+        <!-- Section Intro Label for Team Operatives -->
+        <div class="team-section-heading reveal-fade-up">
+          <div class="team-heading-tag mono">
+            <span class="team-tag-bracket">[</span>
+            <span>CLEARANCE LEVEL: PUBLIC // ACTIVE OPERATIVES</span>
+            <span class="team-tag-bracket">]</span>
+          </div>
+          <h3 class="team-grid-title">Click An Operative To Initialize Deep Dossier</h3>
+          <p class="team-grid-subtitle">Explore origin stories, collaborative pair workflows, system architecture responsibilities, and live telemetry metrics.</p>
+        </div>
+
+        <!-- Team Section: 3D Holographic Interactive Cards -->
         <div class="team-grid">
           
-          <div class="team-card reveal-fade-up" data-member="founder" role="button" tabindex="0" aria-haspopup="dialog" aria-label="View profile, story and work of Priyansu, Founder and Lead Dev">
-            <span class="team-card-top-tag">DOSSIER // 01</span>
-            <div class="team-avatar">P</div>
-            <span class="team-role-tag">FOUNDER & LEAD DEV</span>
-            <h4 class="team-name">Priyansu</h4>
-            <p class="team-desc">
-              Creative technologist and developer driving the vision, aesthetics, and implementation across all NightShift projects.
-            </p>
+          <!-- MEMBER 01: FOUNDER & LEAD DEV (Priyansu) -->
+          <div class="team-card reveal-fade-up" data-member="founder" role="button" tabindex="0" aria-haspopup="dialog" aria-label="View profile, origin story and engineering missions of Priyansu, Founder and Lead Dev">
+            <div class="team-card-glare" aria-hidden="true"></div>
+            <div class="team-card-scanline" aria-hidden="true"></div>
+            
+            <div class="team-card-topbar">
+              <span class="team-card-tag mono">┌─ [DOSSIER: ARCHITECT-01]</span>
+              <span class="team-status-indicator status-active">
+                <span class="team-status-dot"></span>
+                ACTIVE CORE
+              </span>
+            </div>
+
+            <!-- Custom Holographic Avatar Glyph: Architect Core -->
+            <div class="team-holo-avatar-wrap">
+              <div class="holo-orbit-ring ring-outer"></div>
+              <div class="holo-orbit-ring ring-dashed"></div>
+              <div class="team-holo-avatar avatar-founder">
+                <svg viewBox="0 0 100 100" class="holo-avatar-svg" aria-hidden="true">
+                  <!-- Hexagonal Shield Matrix -->
+                  <polygon points="50,6 90,28 90,72 50,94 10,72 10,28" fill="rgba(0,242,254,0.06)" stroke="rgba(0,242,254,0.4)" stroke-width="1.8"/>
+                  <polygon points="50,18 78,34 78,66 50,82 22,66 22,34" fill="rgba(0,242,254,0.12)" stroke="var(--cyan)" stroke-width="2"/>
+                  <!-- Core Tech Emitter Cross & Concentric Ring -->
+                  <circle cx="50" cy="50" r="14" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="1.8" stroke-dasharray="3 3"/>
+                  <!-- Bold Architect Monogram -->
+                  <text x="50" y="58" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="24" fill="#ffffff">P</text>
+                  <!-- Targeting Ticks -->
+                  <line x1="50" y1="2" x2="50" y2="12" stroke="var(--cyan)" stroke-width="2.5"/>
+                  <line x1="50" y1="88" x2="50" y2="98" stroke="var(--cyan)" stroke-width="2.5"/>
+                  <line x1="4" y1="50" x2="14" y2="50" stroke="var(--cyan)" stroke-width="2.5"/>
+                  <line x1="86" y1="50" x2="96" y2="50" stroke="var(--cyan)" stroke-width="2.5"/>
+                </svg>
+              </div>
+              <span class="holo-corner-bracket br-tl"></span>
+              <span class="holo-corner-bracket br-tr"></span>
+              <span class="holo-corner-bracket br-bl"></span>
+              <span class="holo-corner-bracket br-br"></span>
+            </div>
+
+            <div class="team-meta-wrap">
+              <span class="team-role-tag mono">FOUNDER & LEAD DEV</span>
+              <h4 class="team-name">Priyansu</h4>
+              <div class="team-handle mono">PRIYANSU // ARCHITECT-01</div>
+              <p class="team-desc">
+                Creative technologist and developer driving the vision, aesthetics, and implementation across all NightShift projects.
+              </p>
+            </div>
+
+            <!-- Live Micro-Telemetry Stat Badges -->
+            <div class="team-telemetry-chips">
+              <span class="telemetry-chip mono" title="Nocturnal engineering hours past 11:00 PM">
+                <span class="chip-dot"></span> 2,400+ HRS
+              </span>
+              <span class="telemetry-chip mono" title="Strict zero-framework bloat">
+                <span class="chip-dot"></span> 100% BESPOKE
+              </span>
+              <span class="telemetry-chip mono" title="Frame rate target benchmark">
+                <span class="chip-dot"></span> 60+ FPS
+              </span>
+            </div>
+
             <div class="team-card-footer">
-              <span class="team-action-link">Open Story & Work <span class="team-arrow">→</span></span>
+              <div class="team-trigger-btn">
+                <span class="team-trigger-text">INITIALIZE DOSSIER</span>
+                <span class="team-trigger-auth mono">[AUTH-01]</span>
+                <span class="team-arrow" aria-hidden="true">→</span>
+              </div>
             </div>
           </div>
 
-          <div class="team-card reveal-fade-up reveal-delay-1" data-member="devteam" role="button" tabindex="0" aria-haspopup="dialog" aria-label="View profile, story and work of Priyansu and GPT, Development Team">
-            <span class="team-card-top-tag">DOSSIER // 02</span>
-            <div class="team-avatar">P+G</div>
-            <span class="team-role-tag">DEVELOPMENT TEAM</span>
-            <h4 class="team-name">Priyansu + GPT</h4>
-            <p class="team-desc">
-              High-velocity pair programming alliance collaborating on architectural patterns, algorithmic solutions, and clean execution.
-            </p>
+          <!-- MEMBER 02: DEVELOPMENT TEAM (Priyansu + GPT) -->
+          <div class="team-card reveal-fade-up reveal-delay-1" data-member="devteam" role="button" tabindex="0" aria-haspopup="dialog" aria-label="View profile, origin story and engineering missions of Priyansu and GPT, Development Team">
+            <div class="team-card-glare" aria-hidden="true"></div>
+            <div class="team-card-scanline" aria-hidden="true"></div>
+
+            <div class="team-card-topbar">
+              <span class="team-card-tag mono">┌─ [DOSSIER: DEV-SYNAPSE]</span>
+              <span class="team-status-indicator status-active">
+                <span class="team-status-dot status-violet-dot"></span>
+                10X VELOCITY
+              </span>
+            </div>
+
+            <!-- Custom Holographic Avatar Glyph: Quantum Synapse -->
+            <div class="team-holo-avatar-wrap">
+              <div class="holo-orbit-ring ring-outer ring-violet"></div>
+              <div class="holo-orbit-ring ring-dashed ring-violet-dashed"></div>
+              <div class="team-holo-avatar avatar-devteam">
+                <svg viewBox="0 0 100 100" class="holo-avatar-svg" aria-hidden="true">
+                  <!-- Interlocking Dual Ring Geometry -->
+                  <circle cx="40" cy="50" r="28" fill="rgba(168,85,247,0.1)" stroke="rgba(192,132,252,0.5)" stroke-width="2"/>
+                  <circle cx="60" cy="50" r="28" fill="rgba(0,242,254,0.1)" stroke="rgba(0,242,254,0.5)" stroke-width="2"/>
+                  <!-- Synaptic Fusion Bridge -->
+                  <ellipse cx="50" cy="50" rx="14" ry="24" fill="rgba(255,255,255,0.12)" stroke="#ffffff" stroke-width="1.5" stroke-dasharray="2 2"/>
+                  <!-- Monogram Fusion -->
+                  <text x="50" y="58" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="20" fill="#ffffff">P+G</text>
+                  <!-- Synapse Node Points -->
+                  <circle cx="20" cy="30" r="3" fill="var(--cyan)"/>
+                  <circle cx="80" cy="70" r="3" fill="#c084fc"/>
+                </svg>
+              </div>
+              <span class="holo-corner-bracket br-tl"></span>
+              <span class="holo-corner-bracket br-tr"></span>
+              <span class="holo-corner-bracket br-bl"></span>
+              <span class="holo-corner-bracket br-br"></span>
+            </div>
+
+            <div class="team-meta-wrap">
+              <span class="team-role-tag mono tag-violet">DEVELOPMENT TEAM</span>
+              <h4 class="team-name">Priyansu + GPT</h4>
+              <div class="team-handle mono handle-violet">DEV-SYNAPSE // DUAL-CORE</div>
+              <p class="team-desc">
+                High-velocity pair programming alliance collaborating on architectural patterns, algorithmic solutions, and clean execution.
+              </p>
+            </div>
+
+            <!-- Live Micro-Telemetry Stat Badges -->
+            <div class="team-telemetry-chips">
+              <span class="telemetry-chip mono chip-violet" title="Velocity multiplier over traditional cycles">
+                <span class="chip-dot"></span> 10x VELOCITY
+              </span>
+              <span class="telemetry-chip mono chip-violet" title="Human creative taste + AI synthesis">
+                <span class="chip-dot"></span> 50:50 CO-PILOT
+              </span>
+              <span class="telemetry-chip mono chip-violet" title="Idea-to-code iteration loop">
+                <span class="chip-dot"></span> &lt;200ms LOOP
+              </span>
+            </div>
+
             <div class="team-card-footer">
-              <span class="team-action-link">Open Story & Work <span class="team-arrow">→</span></span>
+              <div class="team-trigger-btn btn-violet">
+                <span class="team-trigger-text">INITIALIZE DOSSIER</span>
+                <span class="team-trigger-auth mono">[AUTH-02]</span>
+                <span class="team-arrow" aria-hidden="true">→</span>
+              </div>
             </div>
           </div>
 
-          <div class="team-card reveal-fade-up reveal-delay-2" data-member="sysmanager" role="button" tabindex="0" aria-haspopup="dialog" aria-label="View profile, story and work of GPT, System Manager">
-            <span class="team-card-top-tag">DOSSIER // 03</span>
-            <div class="team-avatar">GPT</div>
-            <span class="team-role-tag">SYSTEM MANAGER</span>
-            <h4 class="team-name">GPT</h4>
-            <p class="team-desc">
-              Strategic partner, code auditor, and organizational engine coordinating project workflows and performance benchmarks.
-            </p>
+          <!-- MEMBER 03: SYSTEM MANAGER (GPT) -->
+          <div class="team-card reveal-fade-up reveal-delay-2" data-member="sysmanager" role="button" tabindex="0" aria-haspopup="dialog" aria-label="View profile, origin story and engineering missions of GPT, System Manager">
+            <div class="team-card-glare" aria-hidden="true"></div>
+            <div class="team-card-scanline" aria-hidden="true"></div>
+
+            <div class="team-card-topbar">
+              <span class="team-card-tag mono">┌─ [DOSSIER: NEXUS-SENTRY]</span>
+              <span class="team-status-indicator status-emerald">
+                <span class="team-status-dot status-emerald-dot"></span>
+                24/7 ONLINE
+              </span>
+            </div>
+
+            <!-- Custom Holographic Avatar Glyph: Nexus Sentry -->
+            <div class="team-holo-avatar-wrap">
+              <div class="holo-orbit-ring ring-outer ring-emerald"></div>
+              <div class="holo-orbit-ring ring-dashed ring-emerald-dashed"></div>
+              <div class="team-holo-avatar avatar-sysmanager">
+                <svg viewBox="0 0 100 100" class="holo-avatar-svg" aria-hidden="true">
+                  <!-- Radar Target Reticle Grid -->
+                  <circle cx="50" cy="50" r="40" fill="rgba(16,185,129,0.06)" stroke="rgba(16,185,129,0.4)" stroke-width="1.8"/>
+                  <circle cx="50" cy="50" r="28" fill="rgba(16,185,129,0.12)" stroke="var(--emerald)" stroke-width="2"/>
+                  <!-- Sentry Radar Eye / Scanner Sweep Lines -->
+                  <polygon points="50,22 68,36 68,64 50,78 32,64 32,36" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.6"/>
+                  <circle cx="50" cy="50" r="10" fill="var(--emerald)" opacity="0.3"/>
+                  <!-- Bold Sentry Monogram -->
+                  <text x="50" y="57" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="20" fill="#ffffff">GPT</text>
+                  <!-- Autonomous Radar Ray -->
+                  <line x1="50" y1="10" x2="50" y2="90" stroke="var(--emerald)" stroke-width="1.5" stroke-dasharray="3 3"/>
+                  <line x1="10" y1="50" x2="90" y2="50" stroke="var(--emerald)" stroke-width="1.5" stroke-dasharray="3 3"/>
+                </svg>
+              </div>
+              <span class="holo-corner-bracket br-tl"></span>
+              <span class="holo-corner-bracket br-tr"></span>
+              <span class="holo-corner-bracket br-bl"></span>
+              <span class="holo-corner-bracket br-br"></span>
+            </div>
+
+            <div class="team-meta-wrap">
+              <span class="team-role-tag mono tag-emerald">SYSTEM MANAGER</span>
+              <h4 class="team-name">GPT</h4>
+              <div class="team-handle mono handle-emerald">NEXUS-AI // SENTRY</div>
+              <p class="team-desc">
+                Strategic partner, code auditor, and organizational engine coordinating project workflows and performance benchmarks.
+              </p>
+            </div>
+
+            <!-- Live Micro-Telemetry Stat Badges -->
+            <div class="team-telemetry-chips">
+              <span class="telemetry-chip mono chip-emerald" title="Autonomous sentry operational uptime">
+                <span class="chip-dot"></span> 99.99% UPTIME
+              </span>
+              <span class="telemetry-chip mono chip-emerald" title="Continuous system monitoring">
+                <span class="chip-dot"></span> 24/7 SENTRY
+              </span>
+              <span class="telemetry-chip mono chip-emerald" title="Strict architectural and semantic governance">
+                <span class="chip-dot"></span> ZERO DRIFT
+              </span>
+            </div>
+
             <div class="team-card-footer">
-              <span class="team-action-link">Open Story & Work <span class="team-arrow">→</span></span>
+              <div class="team-trigger-btn btn-emerald">
+                <span class="team-trigger-text">INITIALIZE DOSSIER</span>
+                <span class="team-trigger-auth mono">[AUTH-03]</span>
+                <span class="team-arrow" aria-hidden="true">→</span>
+              </div>
             </div>
           </div>
 
@@ -733,7 +1293,7 @@
     </div>
   </footer>
 
-  <!-- Modular Scripts -->
-  <script type="module" src="js/main.js"></script>
+  <!-- NightShift HQ Core Script (Compatible with file:// and http://) -->
+  <script src="js/app.js"></script>
 </body>
 </html>

@@ -226,6 +226,84 @@ export const TEAM_DATA = {
 };
 
 /**
+ * Returns custom holographic SVG avatar markup for each member
+ */
+function getMemberHoloAvatar(memberId) {
+  if (memberId === 'founder') {
+    return `
+      <div class="team-holo-avatar avatar-founder" style="width:96px; height:96px;">
+        <svg viewBox="0 0 100 100" class="holo-avatar-svg" style="width:68px; height:68px;" aria-hidden="true">
+          <polygon points="50,6 90,28 90,72 50,94 10,72 10,28" fill="rgba(0,242,254,0.06)" stroke="rgba(0,242,254,0.4)" stroke-width="1.8"/>
+          <polygon points="50,18 78,34 78,66 50,82 22,66 22,34" fill="rgba(0,242,254,0.12)" stroke="var(--cyan)" stroke-width="2"/>
+          <circle cx="50" cy="50" r="14" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="1.8" stroke-dasharray="3 3"/>
+          <text x="50" y="58" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="24" fill="#ffffff">P</text>
+          <line x1="50" y1="2" x2="50" y2="12" stroke="var(--cyan)" stroke-width="2.5"/>
+          <line x1="50" y1="88" x2="50" y2="98" stroke="var(--cyan)" stroke-width="2.5"/>
+          <line x1="4" y1="50" x2="14" y2="50" stroke="var(--cyan)" stroke-width="2.5"/>
+          <line x1="86" y1="50" x2="96" y2="50" stroke="var(--cyan)" stroke-width="2.5"/>
+        </svg>
+      </div>
+    `;
+  } else if (memberId === 'devteam') {
+    return `
+      <div class="team-holo-avatar avatar-devteam" style="width:96px; height:96px;">
+        <svg viewBox="0 0 100 100" class="holo-avatar-svg" style="width:68px; height:68px;" aria-hidden="true">
+          <circle cx="40" cy="50" r="28" fill="rgba(168,85,247,0.1)" stroke="rgba(192,132,252,0.5)" stroke-width="2"/>
+          <circle cx="60" cy="50" r="28" fill="rgba(0,242,254,0.1)" stroke="rgba(0,242,254,0.5)" stroke-width="2"/>
+          <ellipse cx="50" cy="50" rx="14" ry="24" fill="rgba(255,255,255,0.12)" stroke="#ffffff" stroke-width="1.5" stroke-dasharray="2 2"/>
+          <text x="50" y="58" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="20" fill="#ffffff">P+G</text>
+          <circle cx="20" cy="30" r="3" fill="var(--cyan)"/>
+          <circle cx="80" cy="70" r="3" fill="#c084fc"/>
+        </svg>
+      </div>
+    `;
+  } else {
+    return `
+      <div class="team-holo-avatar avatar-sysmanager" style="width:96px; height:96px;">
+        <svg viewBox="0 0 100 100" class="holo-avatar-svg" style="width:68px; height:68px;" aria-hidden="true">
+          <circle cx="50" cy="50" r="40" fill="rgba(16,185,129,0.06)" stroke="rgba(16,185,129,0.4)" stroke-width="1.8"/>
+          <circle cx="50" cy="50" r="28" fill="rgba(16,185,129,0.12)" stroke="var(--emerald)" stroke-width="2"/>
+          <polygon points="50,22 68,36 68,64 50,78 32,64 32,36" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.6"/>
+          <circle cx="50" cy="50" r="10" fill="var(--emerald)" opacity="0.3"/>
+          <text x="50" y="57" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="20" fill="#ffffff">GPT</text>
+          <line x1="50" y1="10" x2="50" y2="90" stroke="var(--emerald)" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <line x1="10" y1="50" x2="90" y2="50" stroke="var(--emerald)" stroke-width="1.5" stroke-dasharray="3 3"/>
+        </svg>
+      </div>
+    `;
+  }
+}
+
+/**
+ * Scrambles and decrypts text smoothly into final target string
+ */
+function decryptText(el, finalText, speed = 20) {
+  if (!el) return;
+  const chars = '01#%&*+<>_/[{]}-+=~';
+  let iteration = 0;
+  const total = finalText.length;
+  clearInterval(el._decryptTimer);
+
+  el._decryptTimer = setInterval(() => {
+    el.textContent = finalText
+      .split('')
+      .map((letter, idx) => {
+        if (idx < iteration) {
+          return finalText[idx];
+        }
+        return chars[Math.floor(Math.random() * chars.length)];
+      })
+      .join('');
+
+    if (iteration >= total) {
+      clearInterval(el._decryptTimer);
+      el.textContent = finalText;
+    }
+    iteration += 1 / 2;
+  }, speed);
+}
+
+/**
  * Renders and opens the Team Dossier Modal for a given member ID
  */
 export function openTeamModal(memberId = 'founder') {
@@ -254,7 +332,7 @@ export function openTeamModal(memberId = 'founder') {
   // Generate responsibilities cards
   const respCardsHtml = data.work.responsibilities.map((resp, idx) => `
     <div class="dossier-resp-card">
-      <div class="dossier-resp-num">0${idx + 1}</div>
+      <div class="dossier-resp-num mono">0${idx + 1}</div>
       <div class="dossier-resp-title">${resp.title}</div>
       <p class="dossier-resp-desc">${resp.desc}</p>
     </div>
@@ -262,7 +340,7 @@ export function openTeamModal(memberId = 'founder') {
 
   // Generate tech arsenal badges
   const techBadgesHtml = data.techStack.map(tech => `
-    <span class="dossier-tech-badge">
+    <span class="dossier-tech-badge mono">
       <span class="dossier-tech-glyph">▸</span> ${tech}
     </span>
   `).join('');
@@ -270,7 +348,7 @@ export function openTeamModal(memberId = 'founder') {
   // Generate metrics HUD tiles
   const metricsHtml = data.metrics.map(m => `
     <div class="dossier-metric-tile">
-      <div class="dossier-metric-label">${m.label}</div>
+      <div class="dossier-metric-label mono">${m.label}</div>
       <div class="dossier-metric-val">${m.value}</div>
       <div class="dossier-metric-sub">${m.subtext}</div>
     </div>
@@ -288,7 +366,7 @@ export function openTeamModal(memberId = 'founder') {
       <div class="dossier-topbar">
         <div class="dossier-topbar-left">
           <span class="dossier-badge-live"></span>
-          <span class="dossier-topbar-title">OPERATIONAL DOSSIER // NIGHTSHIFT-HQ</span>
+          <span class="dossier-topbar-title mono">OPERATIONAL DOSSIER // NIGHTSHIFT-HQ // CLEARANCE AUTH-01</span>
         </div>
 
         <!-- QUICK MEMBER SWITCHER -->
@@ -308,17 +386,15 @@ export function openTeamModal(memberId = 'founder') {
       <div class="dossier-hero">
         <div class="dossier-avatar-container">
           <div class="dossier-avatar-ring"></div>
-          <div class="dossier-avatar" style="background: ${data.avatarGradient};">
-            ${data.avatarInitials}
-          </div>
+          ${getMemberHoloAvatar(data.id)}
         </div>
 
         <div class="dossier-hero-info">
           <div class="dossier-role-row">
-            <span class="dossier-role-tag" style="color:${data.badgeColor}; border-color:${data.badgeColor};">
+            <span class="dossier-role-tag mono" style="color:${data.badgeColor}; border-color:${data.badgeColor};">
               ${data.roleTag}
             </span>
-            <span class="dossier-status-pill ${data.statusClass}">
+            <span class="dossier-status-pill mono ${data.statusClass}">
               <span class="dossier-status-dot"></span>
               ${data.status}
             </span>
@@ -341,8 +417,8 @@ export function openTeamModal(memberId = 'founder') {
         <!-- SECTION 1: THE STORY & ORIGIN -->
         <div class="dossier-section">
           <div class="dossier-section-header">
-            <span class="dossier-section-tag">01 // ORIGIN LORE</span>
-            <h3 class="dossier-section-title">${data.story.heading}</h3>
+            <span class="dossier-section-tag mono">01 // ORIGIN LORE & DEEP HISTORY</span>
+            <h3 class="dossier-section-title" id="dossier-story-title">${data.story.heading}</h3>
           </div>
           <div class="dossier-story-box">
             ${storyHtml}
@@ -352,7 +428,7 @@ export function openTeamModal(memberId = 'founder') {
         <!-- SECTION 2: WORK & RESPONSIBILITIES -->
         <div class="dossier-section">
           <div class="dossier-section-header">
-            <span class="dossier-section-tag">02 // ACTIVE MISSIONS</span>
+            <span class="dossier-section-tag mono">02 // ACTIVE MISSIONS & RESPONSIBILITIES</span>
             <h3 class="dossier-section-title">${data.work.heading}</h3>
           </div>
           <div class="dossier-resp-grid">
@@ -363,7 +439,7 @@ export function openTeamModal(memberId = 'founder') {
         <!-- SECTION 3: TECHNICAL ARSENAL -->
         <div class="dossier-section">
           <div class="dossier-section-header">
-            <span class="dossier-section-tag">03 // CAPABILITIES & ARSENAL</span>
+            <span class="dossier-section-tag mono">03 // CAPABILITIES & ARSENAL</span>
             <h3 class="dossier-section-title">Core Technologies & Methodologies</h3>
           </div>
           <div class="dossier-tech-cluster">
@@ -383,17 +459,24 @@ export function openTeamModal(memberId = 'founder') {
       <!-- BOTTOM CONTROL BAR -->
       <div class="dossier-bottom-bar">
         <span class="mono" style="font-size:0.75rem; color:var(--text-muted);">
-          NIGHTSHIFT ARCHIVE // SEC-VER 2.0 // DEPLOYED
+          NIGHTSHIFT ARCHIVE // SEC-VER 2.0 // DEPLOYED // STATUS: VERIFIED
         </span>
         <div style="display:flex; gap:0.75rem;">
           <button type="button" class="btn btn-secondary btn-sm" id="team-modal-bottom-close">
-            Close Dossier
+            Close Dossier [ESC]
           </button>
         </div>
       </div>
 
     </div>
   `;
+
+  // Trigger decryption text effect on name and story heading
+  const nameEl = document.getElementById('team-dialog-name');
+  if (nameEl) decryptText(nameEl, data.name, 18);
+
+  const storyHeadingEl = document.getElementById('dossier-story-title');
+  if (storyHeadingEl) decryptText(storyHeadingEl, data.story.heading, 15);
 
   // Bind close buttons
   const closeBtn = document.getElementById('team-modal-close-btn');
@@ -430,7 +513,7 @@ export function openTeamModal(memberId = 'founder') {
 }
 
 /**
- * Initializes the Team Dossier Modal dialog and binds page interaction triggers
+ * Initializes the Team Dossier Modal dialog, 3D mouse tracking, and binds triggers
  */
 export function initTeamModal() {
   const dialog = document.getElementById('team-dialog');
@@ -454,15 +537,36 @@ export function initTeamModal() {
     }
   });
 
-  // Attach event listeners to .team-card elements in team section
+  // Attach 3D tilt and mouse spotlight tracking to .team-card elements
   const teamCards = document.querySelectorAll('.team-card');
   teamCards.forEach(card => {
     const memberId = card.getAttribute('data-member') || 'founder';
 
+    // 3D Tilt and Mouse Spotlight Glare
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      card.style.setProperty('--mouse-x', `${x}px`);
+      card.style.setProperty('--mouse-y', `${y}px`);
+
+      // Subtle 3D perspective rotation
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rotateX = ((y - centerY) / centerY) * -6;
+      const rotateY = ((x - centerX) / centerX) * 6;
+      card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-8px) scale(1.01)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+      card.style.removeProperty('--mouse-x');
+      card.style.removeProperty('--mouse-y');
+    });
+
     // Click handler
     card.addEventListener('click', (e) => {
-      // If user clicked an inner button that handles its own onclick, avoid double trigger
-      if (e.target.closest('.team-cta-btn')) return;
+      soundFx.playClick();
       openTeamModal(memberId);
     });
 
@@ -474,7 +578,7 @@ export function initTeamModal() {
       }
     });
 
-    // Sound feedback
+    // Sound feedback on hover
     card.addEventListener('mouseenter', () => soundFx.playHover());
   });
 
@@ -482,7 +586,10 @@ export function initTeamModal() {
   const manifestRows = document.querySelectorAll('.identity-row[data-member]');
   manifestRows.forEach(row => {
     const memberId = row.getAttribute('data-member');
-    row.addEventListener('click', () => openTeamModal(memberId));
+    row.addEventListener('click', () => {
+      soundFx.playClick();
+      openTeamModal(memberId);
+    });
     row.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();

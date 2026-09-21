@@ -4,7 +4,7 @@
  * Founder: Priyansu | Developer: Priyansu + GPT | Manager: GPT
  */
 
-import { initOpeningSequence, initAmbientCanvas, initScrollReveals } from './animations.js';
+import { initOpeningSequence, initAmbientCanvas, initSupernovaAnimation, initScrollProgress, initScrollReveals } from './animations.js';
 import { initProjectModal } from './projects.js';
 import { initTeamModal } from './team.js';
 import { initTimelineAndLogs } from './timeline.js';
@@ -16,6 +16,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 2. Initialize Ambient Starfield & Particle Canvas
   initAmbientCanvas();
+
+  // 2.1 Exploding Stars & Cosmic Supernova Engine (Command Center to Deep Dossier Operatives)
+  initSupernovaAnimation();
 
   // 3. Initialize Project Detail Dialog System
   initProjectModal();
@@ -29,7 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // 5. Initialize Interactions, Audio Synthesizer & Filters
   initInteractions();
 
-  // 6. Initialize Scroll-triggered Animations
+  // 6. Initialize Scroll-triggered Animations & Progress Bar
+  initScrollProgress();
   initScrollReveals();
 
   // 7. Initialize Real-Time Clock & Telemetry HUD
@@ -58,6 +62,11 @@ function initTelemetryClock() {
 
     if (timeElement) {
       timeElement.textContent = `${hours}:${minutes}:${seconds} IST`;
+    }
+
+    const mobileClock = document.getElementById('nav-mobile-clock');
+    if (mobileClock) {
+      mobileClock.textContent = `IST // ${hours}:${minutes}:${seconds}`;
     }
 
     // Uptime formatting
@@ -94,6 +103,12 @@ function initNavigation() {
 
   // Mobile drawer toggle
   if (mobileToggle && navLinks) {
+    const closeMobileMenu = () => {
+      navLinks.classList.remove('open');
+      mobileToggle.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    };
+
     mobileToggle.addEventListener('click', () => {
       const isOpen = navLinks.classList.toggle('open');
       mobileToggle.setAttribute('aria-expanded', isOpen);
@@ -101,11 +116,14 @@ function initNavigation() {
     });
 
     navItems.forEach(link => {
-      link.addEventListener('click', () => {
-        navLinks.classList.remove('open');
-        mobileToggle.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
-      });
+      link.addEventListener('click', closeMobileMenu);
+    });
+
+    // Close on Escape key
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && navLinks.classList.contains('open')) {
+        closeMobileMenu();
+      }
     });
   }
 }
